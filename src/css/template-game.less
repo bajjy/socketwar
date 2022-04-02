@@ -1,0 +1,33 @@
+.template-game {
+    height: 100%;
+    .gameCanvas {
+        position: relative;
+        height: 100%;
+        
+    }
+    .gameInfo {
+        position: absolute;
+        left: 0; 
+        right: 0; 
+        margin-left: auto; 
+        margin-right: auto;
+        font-size: 5em;
+        font-weight: 900;
+        text-shadow: 5px 5px #f6a76a;
+        color: #e26b16;
+    }
+    .hidden {
+        display: none;
+    }
+
+    .target {
+        position: absolute;
+        width: 100px;
+        height: 70px;
+        border: 2px solid;
+        border-color: red;
+        &.me {
+            border-color: white;
+        }
+    }
+}
