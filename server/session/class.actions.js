@@ -1,4 +1,3 @@
-const fps60 = 1000 / 60;
 const allowedActions = {
     moveCursor(params) {
         if (params.x && params.y) return true

@@ -11,8 +11,8 @@ class Ticker {
         this.cycle = setInterval(() => {
             callback()
             ++this.time;
-        // }, fps60 / this.speed);
-        }, 1000);
+        }, fps60 / this.speed);
+        // }, 1000);
     };
 }
 
