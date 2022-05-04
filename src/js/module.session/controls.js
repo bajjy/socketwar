@@ -9,7 +9,11 @@ const config = {
         ONE: 49
     },
     MOUSE: {
-        MOVE: 'mousemove'
+        MOVE: 'mousemove',
+        DOWN: 'mousedown',
+        UP: 'mouseup',
+        OVER: 'mouseover',
+        OUT: 'mouseout',
     }
 }
 class Controls {
@@ -40,6 +44,18 @@ class Controls {
             mouseMoveTimeout = setTimeout(() => this.mouselayout[theType].status = false, 150);
         };
         
+        let mouseDownIs = (event) => {
+            var theType = event.type;
+            if (!this.mouselayout[theType]) this.mouselayout[theType] = {};
+            this.mouselayout[theType].event = event;
+            if (event.type == 'mousedown') {
+                this.mouselayout['mousedown'].status = true;
+            };
+            if (event.type == 'mouseup') {
+                this.mouselayout['mousedown'].status = false;
+            };
+        };
+        
         window.addEventListener('keydown', (event) => {
             keyStateIs(event);
 
@@ -49,6 +65,12 @@ class Controls {
         }, true);
         window.addEventListener('mousemove', (event) => {
             mouseMoveIs(event);
+        }, true);
+        window.addEventListener('mousedown', (event) => {
+            mouseDownIs(event);
+        }, true);
+        window.addEventListener('mouseup', (event) => {
+            mouseDownIs(event);
         }, true);
         // game.eb.on('ticker-tick', () => {
         //     for (let k in this.keylayout) if (this.keylayout[k] && this.keylayout[k].status && this.keylayout[k].action) this.keylayout[k].action();

@@ -122,6 +122,8 @@ function socketListener(io) {
             const [store, player] = getLinkBySocket(socket.id);
 
             store.game.start(() => {
+                store.players.map(pl => store.game.checkActions(pl.socket));
+
                 io.in(store.room).emit('ticker-tick', { data: store.game.gameData });
             });
         });

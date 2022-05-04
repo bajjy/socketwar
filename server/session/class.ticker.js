@@ -3,7 +3,7 @@ const fps60 = 1000 / 60;
 class Ticker {
     constructor() {
         this.cycle;
-        this.speed = 1;
+        this.speed = 0.016;
         this.time = 0;
     }
     run(callback) {

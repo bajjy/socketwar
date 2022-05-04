@@ -28,26 +28,28 @@ function ctrl(controls) {
 
 export default {
     name: 'session',
-    init(state, gameCanvas) {
+    init(state, gameCanvas, elements) {
         state.session = {
             canvas: gameCanvas,
+            elements,
             controls: new Controls({}),
-            actions: []
+            actions: [],
+            act: this.act,
         };
-        state.session['render'] = new Render(state),
-        state.session.controls.bindMouse([
-            {
-                mouse: ['MOVE'], 
-                action: (e) => {
-                    const req = {
-                        title: 'moveCursor',
-                        x: e.event.x,
-                        y: e.event.y,
-                    }
-                    this.act(state, req);
-                }
-            }
-        ])
+        state.session['render'] = new Render(state);
+        // state.session.controls.bindMouse([
+        //     {
+        //         mouse: ['MOVE'], 
+        //         action: (e) => {
+        //             const req = {
+        //                 title: 'moveCursor',
+        //                 x: e.event.x,
+        //                 y: e.event.y,
+        //             }
+        //             this.act(state, req);
+        //         }
+        //     }
+        // ])
     },
     act(state, req) {
         state.session.actions.push(req);
@@ -59,7 +61,7 @@ export default {
     tickApply(response, state) {
         const { socket } = state.system;
     
-        state.session.render.players(response.data);
+        state.session.render.update(response.data);
     },
     tick(state) {
         const ctrl = state.session.controls;

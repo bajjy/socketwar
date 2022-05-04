@@ -1,33 +1,12 @@
 import session from '../module.session';
+import TEMPLATE_GAME from './template.game';
 
-const TEMPLATE_GAME = /*html*/`
-    <div class="template-game">
-        <div class="gameCanvas">
-            <div class="battlefield">
-                <div class="circle circle-1"></div>
-                <div class="circle circle-2"></div>
-                <div class="circle circle-3"></div>
-                <div class="circle circle-4"></div>
-                <div class="circle circle-5"></div>
-                <div class="circle circle-6"></div>
-                <div class="circle circle-7"></div>
-                <div class="circle circle-8"></div>
-                <div class="circle circle-9"></div>
-                <div class="circle circle-10"></div>
-                <div class="circle circle-11"></div>
-                <div class="circle circle-12"></div>
-                <div class="circle circle-13"></div>
-                <div class="circle circle-14"></div>
-            </div>
-        </div>
-        <div class="gameInfo hidden">
-            READY
-        </div>
-    </div>
-`;
 const elements = {
     gameCanvas: '',
     gameInfo: '',
+    battlefield: '',
+    magiccircle: '',
+    startspell: '',
 };
 
 export default function game(params) {
@@ -43,7 +22,7 @@ export default function game(params) {
         elements[name] = main.querySelector('.' + name);
     });
     
-    session.init(state, elements.gameCanvas);
+    session.init(state, elements.gameCanvas, elements);
 
     // test socket REMOVE
     socket.emit('create-request', 'Vasyl' + Math.random(), res => {
@@ -62,6 +41,7 @@ export default function game(params) {
     socket.on('ticker-tick', res => {
         // console.log(res.data[socket.id])
         session.tick(state);
+        console.log(res.data[socket.id].magicStarted)
         if (state.session.actions.length) socket.emit('ticker-tick-request', state.session.actions);
         session.clearActions(state);
         session.tickApply(res, state);
