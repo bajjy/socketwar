@@ -35,6 +35,8 @@ export default {
             controls: new Controls({}),
             actions: [],
             act: this.act,
+            arcanes: [],
+            lastArcane: null
         };
         state.session['render'] = new Render(state);
         // state.session.controls.bindMouse([

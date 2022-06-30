@@ -20,28 +20,28 @@ const TEMPLATE_GAME = /*html*/`
             </div>
             <div class="magiccircle hidden">
                 <div class="circle circle-1">
-                    <div>a</div>
+                    <div data-arcane="0">a</div>
                 </div>
                 <div class="circle circle-2">
-                    <div>z</div>
+                    <div data-arcane="1">z</div>
                 </div>
                 <div class="circle circle-3">
-                    <div>o</div>
+                    <div data-arcane="2">o</div>
                 </div>
                 <div class="circle circle-4">
-                    <div>t</div>
+                    <div data-arcane="3">t</div>
                 </div>
                 <div class="circle circle-5">
-                    <div>d</div>
+                    <div data-arcane="4">d</div>
                 </div>
                 <div class="circle circle-6">
-                    <div>i</div>
+                    <div data-arcane="5">i</div>
                 </div>
                 <div class="circle circle-7">
-                    <div>b</div>
+                    <div data-arcane="6">b</div>
                 </div>
                 <div class="circle circle-8">
-                    <div>p</div>
+                    <div data-arcane="7">p</div>
                 </div>
             </div>
             <div class="startspell">

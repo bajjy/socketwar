@@ -7,7 +7,11 @@ const seedData = {
     width: 35,
     height: 35,
     pos: 0, //random free 0-13
-    idle: true
+    idle: true,
+    arcanes: [],
+    lastUsedArcanes: [],
+    spells: [],
+    effects: []
 };
 
 const getNum = (list) => {
@@ -32,7 +36,7 @@ class Session {
         this.ticker.run(cb);
     }
     updateActions(player, action) {
-        console.log(action);
+        console.log('new action =====> ', action);
         if (!action.length) return;
         this.actions.setAction(player, action);
     }
