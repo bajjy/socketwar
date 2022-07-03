@@ -1,4 +1,46 @@
 
+function addAnimation(body) {
+    if (!dynamicStyles) {
+      dynamicStyles = document.createElement('style');
+      dynamicStyles.type = 'text/css';
+      document.head.appendChild(dynamicStyles);
+    }
+  
+    dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
+};
+function graphicsSpellsMoveRight(params, player, socket) {
+    const { state, session, elements, me } = params;
+    const POS_MAX = 13; // 0 - 13 total positions = 14  
+    const targetPos = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;
+    const playerElemName = `playerInfo_${socket}`;
+    const element = elements[playerElemName];
+
+};
+function graphicsPlayersPos(params) {
+    const { state, session, elements, me } = params;
+    const mySocket = state.system.socket.id;
+    const players = session.render.data;
+    
+    Object.keys(players).map((key, index) => {
+        const player = players[key];
+        const playerElemName = `playerInfo_${key}`;
+        const circle = elements.battlefield.querySelector(`.circle.circle-${player.pos + 1}`).getBoundingClientRect();
+        const element = elements[playerElemName] ? elements[playerElemName] : document.createElement("div");
+
+        if (!elements[playerElemName]) {
+            element.className = `player-point ${playerElemName}`;
+            elements.gameCanvas.appendChild(element);
+            elements[playerElemName] = element;
+        };
+        
+        element.style.width = circle.width - 10 + 'px';
+        element.style.height = circle.height - 10 + 'px';
+        element.style.left = circle.x + 5 + 'px';
+        element.style.top = circle.y + 5 + 'px';
+    });
+    // console.log(session)
+};
+
 function gamestateIdle(params) {
     const { state, session, elements } = params;
     const req = {
@@ -8,6 +50,7 @@ function gamestateIdle(params) {
     elements.magiccircle.classList.add('hidden');
     elements.startspell.classList.remove('hidden');
     session.arcanes = [];
+    session.lastArcane = null;
 
     state.session.controls.bindMouse([
         {
@@ -128,6 +171,7 @@ class Render {
         this.elements = state.session.elements;
         this.data = [];
         this.me = {};
+        this.time = 0;
 
         gamestateIdle(this);
     }
@@ -137,18 +181,38 @@ class Render {
         
         this.data = data;
         this.me = me;
-        
-        console.log(me)
+
+        // console.log(me.spells)
         
         if (me.magicStartedOk) gamestateMagicStarted(this);
         if (me.magicStarted) gamestateMagicProcess(this);
         if (me.magicEnded) gamestateIdle(this);
     }
-    graphicsManager() {
+    spellsManager(data) {
+        const socket = this.state.system.socket.id;
+        const me = data[socket];
         
+        me.spells.map(spell => {
+            spell.exec && console.log(spell.message)
+        })
+    }
+    graphicsManager() {
+        if (this.time === 1) graphicsPlayersPos(this); //first run set positions;
+        Object.keys(players).map((key, index) => {
+            const player = players[key];
+            graphicsSpellsMoveRight(this, player, key);
+            player.spells.map(spell => {
+                
+            })
+        });
     }
     update(data) {
         this.stateManager(data);
+        this.spellsManager(data);
+        this.graphicsManager();
+        
+        ++this.time;
+        
         Object.keys(data).map(player => {
             //console.log(player)
             //this.elementTarget(player, data);

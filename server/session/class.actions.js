@@ -114,13 +114,19 @@ class Actions {
     checkSpells(player) {
         const gameData = this.gameData;
         const me = this.gameData[player];
+        me.spells = me.spells.filter(spell => !spell.finished);
         me.spells.map(spell => {
             //{ ok: true, name: 'moveLeft', title: 'Move left', delivery: 0, message: 'moved left', effect }
+            
+            if (spell.exec) {
+                spell.finished = true;
+                delete spell.exec;
+            };
             if (!spell.finished) {
                 spell.delivery -= 1;
                 if (spell.delivery <= 0) {
-                    spell.effect(player, gameData);
-                    spell.finished = true;
+                    spell.effect({player, gameData});
+                    spell.exec = true;
                 };
              }
         });
@@ -132,6 +138,13 @@ class Actions {
             
             this.checkSpells(player);
             
+            if (thePlayer.spellFailedOk) {
+                delete thePlayer.spellFailed;
+                delete thePlayer.spellFailedOk;
+            }
+            if (thePlayer.spellFailed) {
+                thePlayer.spellFailedOk = true;
+            }
             if (thePlayer.magicEnded) {
                 delete thePlayer.magicEnded;
             }

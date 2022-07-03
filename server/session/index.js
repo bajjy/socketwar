@@ -15,7 +15,7 @@ const seedData = {
 };
 
 const getNum = (list) => {
-    let randomNum = Math.round(Math.random() * 5);
+    let randomNum = Math.round(Math.random() * 13);
     return list.includes(randomNum) ? getNum(list) : randomNum;
 };
 

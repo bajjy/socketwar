@@ -36,8 +36,8 @@ export default function home(params) {
     });
 
     elements.newGame.addEventListener('click', (e) => {
-        elements.nickname.checkValidity();
-        if (!elements.nickname.validity.valid) return elements.nickname.setCustomValidity('Name should be 5 - 20 chars long');
+        //elements.nickname.checkValidity();
+        //if (!elements.nickname.validity.valid) return elements.nickname.setCustomValidity('Name should be 5 - 20 chars long');
 
         socket.emit('create-request', elements.nickname.value, res => {
             state.meta.player = res;
@@ -47,8 +47,8 @@ export default function home(params) {
     });
     
     elements.joinGame.addEventListener('click', (e) => {
-        elements.link.checkValidity();
-        if (!elements.link.validity.valid) return elements.link.setCustomValidity('Link is not valid');
+        //elements.link.checkValidity();
+        //if (!elements.link.validity.valid) return elements.link.setCustomValidity('Link is not valid');
 
         const req = {
             name: elements.nickname.value,

@@ -1,19 +1,25 @@
 function moveLeft(params) {
     const effect = (relevantParams) => {
-        console.log('<<<<<<<<<<<<<<<<')
-        console.log('moved left')
+        const { player, gameData } = relevantParams;
+        const me = gameData[player];
+        const POS_MAX = 13; // 0 - 13 total positions = 14
+
+        me.pos = me.pos - 1 < 0 ? POS_MAX : --me.pos;
     };
-    return { ok: true, name: 'moveLeft', title: 'Move left', delivery: 0, message: 'moved left', effect }
+    return { ok: true, name: 'moveLeft', title: 'Move left', delivery: 5, message: 'moved left', effect }
 };
 function moveRight(params) {
     const effect = (relevantParams) => {
-        console.log('>>>>>>>>>>>>>>>>')
-        console.log('moved right')
+        const { player, gameData } = relevantParams;
+        const me = gameData[player];
+        const POS_MAX = 13; // 0 - 13 total positions = 14
+        
+        me.pos = me.pos + 1 > POS_MAX ? 0 : ++me.pos;
     };
-    return { ok: true, name: 'moveRight', title: 'Move right', delivery: 0, message: 'moved right', effect }
+    return { ok: true, name: 'moveRight', title: 'Move right', delivery: 5, message: 'moved right', effect }
 };
 function selfInvincibleStun(params) {
-
+    
 };
 
 const spells = {
@@ -27,7 +33,7 @@ const spells = {
         const spell = arcanes.join('');
         const spellFunc = this.list[spell];
 
-        if (!spellFunc) return { error: 1, message: 'not exist' };
+        if (!spellFunc) return { arcanes, error: 1, message: 'not exist' };
         return spellFunc(params);
     }
 }
