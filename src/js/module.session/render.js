@@ -1,44 +1,78 @@
+//1000 / ((1000 / 60) / 0.1); //62.5 times = 1sec. 0.1 - ticker speet setup
+const FPS60 = 1000 / 60;
+const TICKER_SPEED = 0.1;
+const SPEED = FPS60 / TICKER_SPEED;
 
-function addAnimation(body) {
-    if (!dynamicStyles) {
-      dynamicStyles = document.createElement('style');
-      dynamicStyles.type = 'text/css';
-      document.head.appendChild(dynamicStyles);
-    }
+function addAnimation(body, id) {
+    const dynamicStyles = document.createElement('style');
+    dynamicStyles.id = id;
+    document.head.appendChild(dynamicStyles);
   
-    dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
+    dynamicStyles.innerHTML = body;
 };
 function graphicsSpellsMoveRight(params, player, socket) {
     const { state, session, elements, me } = params;
+
     const POS_MAX = 13; // 0 - 13 total positions = 14  
-    const targetPos = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;
     const playerElemName = `playerInfo_${socket}`;
-    const element = elements[playerElemName];
+    const targetPosLeft = player.pos - 1 < 0 ? POS_MAX : player.pos - 1;
+    const targetPosRight = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;
+    const element = elements[playerElemName];    
 
-};
-function graphicsPlayersPos(params) {
-    const { state, session, elements, me } = params;
-    const mySocket = state.system.socket.id;
-    const players = session.render.data;
-    
-    Object.keys(players).map((key, index) => {
-        const player = players[key];
-        const playerElemName = `playerInfo_${key}`;
-        const circle = elements.battlefield.querySelector(`.circle.circle-${player.pos + 1}`).getBoundingClientRect();
-        const element = elements[playerElemName] ? elements[playerElemName] : document.createElement("div");
-
-        if (!elements[playerElemName]) {
-            element.className = `player-point ${playerElemName}`;
-            elements.gameCanvas.appendChild(element);
-            elements[playerElemName] = element;
-        };
+    player.spells
+    .filter(spell => spell.name == 'moveRight' || spell.name == 'moveLeft')
+    .map(spell => {
+        const { spellIndex } = spell;
+        const animationId = `moveRigh_${spellIndex}`;
+        const circle = 
+            spell.name == 'moveRight' ?
+            elements.battlefield.querySelector(`.circle.circle-${targetPosRight + 1}`).getBoundingClientRect() :
+            elements.battlefield.querySelector(`.circle.circle-${targetPosLeft + 1}`).getBoundingClientRect();
         
-        element.style.width = circle.width - 10 + 'px';
-        element.style.height = circle.height - 10 + 'px';
-        element.style.left = circle.x + 5 + 'px';
-        element.style.top = circle.y + 5 + 'px';
+        const css = /*css*/`
+            @keyframes ${animationId} {
+                100% {
+                    top: ${circle.y + 5}px;
+                    left: ${circle.x + 5}px;
+                }
+            }
+        `;
+
+        if (spell.finished) {
+            document.querySelector('#' + animationId).remove();
+            return graphicsPlayersPos(params, player, socket); //set position on finish
+        };
+        if (!document.querySelector('#' + animationId)) {
+            addAnimation(css, animationId);
+
+            element.style.animationName = animationId;
+            element.style.animationDuration = spell.delivery * SPEED + 'ms';
+            element.style.animationTimingFunction = 'ease-in';
+            element.style.animationDelay = '0s';
+            element.style.animationIterationCount = 1;
+            element.style.animationDirection = 'normal';
+            element.style.animationFillMode = 'forwards';
+
+        }
     });
-    // console.log(session)
+};
+function graphicsPlayersPos(params, player, key) {
+    const { elements } = params;
+    
+    const playerElemName = `playerInfo_${key}`;
+    const circle = elements.battlefield.querySelector(`.circle.circle-${player.pos + 1}`).getBoundingClientRect();
+    const element = elements[playerElemName] ? elements[playerElemName] : document.createElement("div");
+
+    if (!elements[playerElemName]) {
+        element.className = `player-point ${playerElemName}`;
+        elements.gameCanvas.appendChild(element);
+        elements[playerElemName] = element;
+    };
+        
+    element.style.width = circle.width - 10 + 'px';
+    element.style.height = circle.height - 10 + 'px';
+    element.style.left = circle.x + 5 + 'px';
+    element.style.top = circle.y + 5 + 'px';
 };
 
 function gamestateIdle(params) {
@@ -197,9 +231,13 @@ class Render {
         })
     }
     graphicsManager() {
-        if (this.time === 1) graphicsPlayersPos(this); //first run set positions;
+        const players = this.session.render.data;
+    
         Object.keys(players).map((key, index) => {
             const player = players[key];
+            
+            if (this.time === 1) graphicsPlayersPos(this, player, key); //first run set positions;
+            
             graphicsSpellsMoveRight(this, player, key);
             player.spells.map(spell => {
                 

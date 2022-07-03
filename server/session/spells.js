@@ -1,3 +1,10 @@
+let SPELL_INDEX = s4();
+
+function s4() {
+    var r = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return r() + r();
+};
+
 function moveLeft(params) {
     const effect = (relevantParams) => {
         const { player, gameData } = relevantParams;
@@ -6,7 +13,7 @@ function moveLeft(params) {
 
         me.pos = me.pos - 1 < 0 ? POS_MAX : --me.pos;
     };
-    return { ok: true, name: 'moveLeft', title: 'Move left', delivery: 5, message: 'moved left', effect }
+    return { spellIndex: SPELL_INDEX, ok: true, name: 'moveLeft', title: 'Move left', delivery: 5, message: 'moved left', effect }
 };
 function moveRight(params) {
     const effect = (relevantParams) => {
@@ -16,7 +23,7 @@ function moveRight(params) {
         
         me.pos = me.pos + 1 > POS_MAX ? 0 : ++me.pos;
     };
-    return { ok: true, name: 'moveRight', title: 'Move right', delivery: 5, message: 'moved right', effect }
+    return { spellIndex: SPELL_INDEX, ok: true, name: 'moveRight', title: 'Move right', delivery: 5, message: 'moved right', effect }
 };
 function selfInvincibleStun(params) {
     
@@ -34,6 +41,8 @@ const spells = {
         const spellFunc = this.list[spell];
 
         if (!spellFunc) return { arcanes, error: 1, message: 'not exist' };
+        
+        SPELL_INDEX = s4();
         return spellFunc(params);
     }
 }
