@@ -7,21 +7,37 @@ function s4() {
 
 function moveLeft(params) {
     const effect = (relevantParams) => {
-        const { player, gameData } = relevantParams;
+        const { player, gameData, spell } = relevantParams;
         const me = gameData[player];
         const POS_MAX = 13; // 0 - 13 total positions = 14
+        const targetPos = me.pos - 1 < 0 ? POS_MAX : me.pos - 1;
 
-        me.pos = me.pos - 1 < 0 ? POS_MAX : --me.pos;
+        //check players positions
+        // Object.keys(gameData).filter(pl => pl !== player).map(key => {
+        Object.keys(gameData).map(key => {
+            if (gameData[key].pos === targetPos) {
+            // if (gameData[key].pos) {
+                spell.breaked = { by: key, message: 'FAIL' }
+            }
+        });
+        if (!spell.breaked) me.pos = me.pos - 1 < 0 ? POS_MAX : --me.pos;
     };
     return { spellIndex: SPELL_INDEX, ok: true, name: 'moveLeft', title: 'Move left', delivery: 5, message: 'moved left', effect }
 };
 function moveRight(params) {
     const effect = (relevantParams) => {
-        const { player, gameData } = relevantParams;
+        const { player, gameData, spell } = relevantParams;
         const me = gameData[player];
         const POS_MAX = 13; // 0 - 13 total positions = 14
-        
-        me.pos = me.pos + 1 > POS_MAX ? 0 : ++me.pos;
+        const targetPos = me.pos + 1 > POS_MAX ? 0 : me.pos + 1;
+
+        Object.keys(gameData).map(key => {
+            if (gameData[key].pos === targetPos) {
+            // if (gameData[key].pos) {
+                spell.breaked = { by: key, message: 'FAIL' }
+            }
+        });
+        if (!spell.breaked) me.pos = me.pos + 1 > POS_MAX ? 0 : ++me.pos;
     };
     return { spellIndex: SPELL_INDEX, ok: true, name: 'moveRight', title: 'Move right', delivery: 5, message: 'moved right', effect }
 };

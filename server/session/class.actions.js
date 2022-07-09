@@ -125,7 +125,7 @@ class Actions {
             if (!spell.finished) {
                 spell.delivery -= 1;
                 if (spell.delivery <= 0) {
-                    spell.effect({player, gameData});
+                    spell.effect({player, gameData, spell});
                     spell.exec = true;
                 };
              }

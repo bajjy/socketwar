@@ -25,20 +25,20 @@ export default function game(params) {
     session.init(state, elements.gameCanvas, elements);
 
     // test socket REMOVE
-    socket.emit('create-request', 'Vasyl' + Math.random(), res => {
-        state.meta.player = res;
-        socket.emit('get-teams');
-        socket.emit('update-teams', 1);
-        socket.on('get-teams-response', () => socket.emit('new-game') );
-        socket.on('new-game-response', () => socket.emit('start-game') );
+    // socket.emit('create-request', 'Vasyl' + Math.random(), res => {
+    //     state.meta.player = res;
+    //     socket.emit('get-teams');
+    //     socket.emit('update-teams', 1);
+    //     socket.on('get-teams-response', () => socket.emit('new-game') );
+    //     socket.on('new-game-response', () => socket.emit('start-game') );
 
-        // const gameInstance = new Game(elements.gameCanvas, me.link);
-        // gameInstance.scenario.setModules([moduleXx3d]);
-        // gameInstance.scenario.run();
-    });
+    //     // const gameInstance = new Game(elements.gameCanvas, me.link);
+    //     // gameInstance.scenario.setModules([moduleXx3d]);
+    //     // gameInstance.scenario.run();
+    // });
 
     // prod line UNCOMMENT
-    // socket.emit('start-game');
+    socket.emit('start-game');
     socket.on('ticker-tick', res => {
         // console.log(res.data[socket.id])
         session.tick(state);

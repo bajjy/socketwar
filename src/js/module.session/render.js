@@ -1,35 +1,47 @@
+import graphicsRegularMessage from './graphicsRegularMessage';
+
 //1000 / ((1000 / 60) / 0.1); //62.5 times = 1sec. 0.1 - ticker speet setup
 const FPS60 = 1000 / 60;
 const TICKER_SPEED = 0.1;
 const SPEED = FPS60 / TICKER_SPEED;
 
+function s4() {
+    var r = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return r() + r();
+};
+
 function addAnimation(body, id) {
     const dynamicStyles = document.createElement('style');
     dynamicStyles.id = id;
     document.head.appendChild(dynamicStyles);
-  
+
     dynamicStyles.innerHTML = body;
 };
+
+function graphicsMovementFailed(params) {
+
+};
 function graphicsSpellsMoveRight(params, player, socket) {
-    const { state, session, elements, me } = params;
+    const { state, session, elements, me, messages } = params;
 
     const POS_MAX = 13; // 0 - 13 total positions = 14  
     const playerElemName = `playerInfo_${socket}`;
     const targetPosLeft = player.pos - 1 < 0 ? POS_MAX : player.pos - 1;
     const targetPosRight = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;
-    const element = elements[playerElemName];    
+    const element = elements[playerElemName];
+    const isMyself = me.meta.socket === socket;
 
     player.spells
-    .filter(spell => spell.name == 'moveRight' || spell.name == 'moveLeft')
-    .map(spell => {
-        const { spellIndex } = spell;
-        const animationId = `moveRigh_${spellIndex}`;
-        const circle = 
-            spell.name == 'moveRight' ?
-            elements.battlefield.querySelector(`.circle.circle-${targetPosRight + 1}`).getBoundingClientRect() :
-            elements.battlefield.querySelector(`.circle.circle-${targetPosLeft + 1}`).getBoundingClientRect();
-        
-        const css = /*css*/`
+        .filter(spell => spell.name == 'moveRight' || spell.name == 'moveLeft')
+        .map(spell => {
+            const { spellIndex } = spell;
+            const animationId = `moveRigh_${spellIndex}`;
+            const circle =
+                spell.name == 'moveRight' ?
+                    elements.battlefield.querySelector(`.circle.circle-${targetPosRight + 1}`).getBoundingClientRect() :
+                    elements.battlefield.querySelector(`.circle.circle-${targetPosLeft + 1}`).getBoundingClientRect();
+
+            const css = /*css*/`
             @keyframes ${animationId} {
                 100% {
                     top: ${circle.y + 5}px;
@@ -38,27 +50,37 @@ function graphicsSpellsMoveRight(params, player, socket) {
             }
         `;
 
-        if (spell.finished) {
-            document.querySelector('#' + animationId).remove();
-            return graphicsPlayersPos(params, player, socket); //set position on finish
-        };
-        if (!document.querySelector('#' + animationId)) {
-            addAnimation(css, animationId);
+            if (spell.finished) {
+                document.querySelector('#' + animationId).remove();
+                return graphicsPlayersPos(params, player, socket); //set position on finish
+            };
+            if (spell.breaked && isMyself) {
+                return messages.push({
+                    spell,
+                    by: spell.breaked.by,
+                    timer: 10,
+                    message: spell.breaked.message,
+                    type: 'regular',
+                    id: s4()
+                });
+            };
+            if (!document.querySelector('#' + animationId)) {
+                addAnimation(css, animationId);
 
-            element.style.animationName = animationId;
-            element.style.animationDuration = spell.delivery * SPEED + 'ms';
-            element.style.animationTimingFunction = 'ease-in';
-            element.style.animationDelay = '0s';
-            element.style.animationIterationCount = 1;
-            element.style.animationDirection = 'normal';
-            element.style.animationFillMode = 'forwards';
+                element.style.animationName = animationId;
+                element.style.animationDuration = spell.delivery * SPEED + 'ms';
+                element.style.animationTimingFunction = 'ease-in';
+                element.style.animationDelay = '0s';
+                element.style.animationIterationCount = 1;
+                element.style.animationDirection = 'normal';
+                element.style.animationFillMode = 'forwards';
 
-        }
-    });
+            }
+        });
 };
 function graphicsPlayersPos(params, player, key) {
     const { elements } = params;
-    
+
     const playerElemName = `playerInfo_${key}`;
     const circle = elements.battlefield.querySelector(`.circle.circle-${player.pos + 1}`).getBoundingClientRect();
     const element = elements[playerElemName] ? elements[playerElemName] : document.createElement("div");
@@ -68,7 +90,7 @@ function graphicsPlayersPos(params, player, key) {
         elements.gameCanvas.appendChild(element);
         elements[playerElemName] = element;
     };
-        
+
     element.style.width = circle.width - 10 + 'px';
     element.style.height = circle.height - 10 + 'px';
     element.style.left = circle.x + 5 + 'px';
@@ -98,7 +120,7 @@ function gamestateIdle(params) {
     state.session.controls.bindMouse([
         {
             mouse: ['MOVE'],
-            action: () => {}
+            action: () => { }
         }
     ]);
 };
@@ -111,7 +133,7 @@ function gamestateMagicStarted(params) {
     state.session.controls.bindMouse([
         {
             mouse: ['DOWN'],
-            action: () => {}
+            action: () => { }
         }
     ]);
     state.session.controls.bindMouse([
@@ -121,7 +143,7 @@ function gamestateMagicStarted(params) {
                 const { lastArcane } = session;
                 const currentArcane = e.event.target.dataset.arcane;
 
-                if ( currentArcane && lastArcane != currentArcane) {
+                if (currentArcane && lastArcane != currentArcane) {
                     session.lastArcane = currentArcane;
                     session.act(state, { title: 'magicArcaneSet', value: currentArcane })
                 }
@@ -152,7 +174,7 @@ function gamestateMagicSelectTarget(params) {
     state.session.controls.bindMouse([
         {
             mouse: ['MOVE'],
-            action: () => {}
+            action: () => { }
         }
     ]);
 };
@@ -163,7 +185,7 @@ function eventOnSpell() {
     const className = `.target-${id}.target`;
     const el = document.querySelector(className);
     const data = gameData[id];
-    
+
     state.session.controls.bindMouse([
         {
             mouse: ['MOVE'],
@@ -206,18 +228,29 @@ class Render {
         this.data = [];
         this.me = {};
         this.time = 0;
+        this.messages = [];
+        this.cycle;
 
         gamestateIdle(this);
+
+        this.cycle = setInterval(() => {
+            this.messages = this.messages.filter(msg => msg.timer >= 0);
+            this.messages.map(msg => {
+                if (msg.type == 'regular') graphicsRegularMessage(this, msg);
+                msg.running = true;
+                --msg.timer;
+            });
+        }, SPEED);
     }
     stateManager(data) {
         const socket = this.state.system.socket.id;
         const me = data[socket];
-        
+
         this.data = data;
         this.me = me;
 
         // console.log(me.spells)
-        
+
         if (me.magicStartedOk) gamestateMagicStarted(this);
         if (me.magicStarted) gamestateMagicProcess(this);
         if (me.magicEnded) gamestateIdle(this);
@@ -225,22 +258,22 @@ class Render {
     spellsManager(data) {
         const socket = this.state.system.socket.id;
         const me = data[socket];
-        
+
         me.spells.map(spell => {
             spell.exec && console.log(spell.message)
         })
     }
     graphicsManager() {
         const players = this.session.render.data;
-    
+
         Object.keys(players).map((key, index) => {
             const player = players[key];
-            
+
             if (this.time === 1) graphicsPlayersPos(this, player, key); //first run set positions;
-            
+
             graphicsSpellsMoveRight(this, player, key);
             player.spells.map(spell => {
-                
+
             })
         });
     }
@@ -248,9 +281,9 @@ class Render {
         this.stateManager(data);
         this.spellsManager(data);
         this.graphicsManager();
-        
+
         ++this.time;
-        
+
         Object.keys(data).map(player => {
             //console.log(player)
             //this.elementTarget(player, data);

@@ -11,7 +11,7 @@ const seedData = {
     arcanes: [],
     lastUsedArcanes: [],
     spells: [],
-    effects: []
+    effects: [],
 };
 
 const getNum = (list) => {
