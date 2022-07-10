@@ -7,9 +7,9 @@ function s4() {
 
 function moveLeft(params) {
     const effect = (relevantParams) => {
-        const { player, gameData, spell } = relevantParams;
+        const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
-        const POS_MAX = 13; // 0 - 13 total positions = 14
+        const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14
         const targetPos = me.pos - 1 < 0 ? POS_MAX : me.pos - 1;
 
         //check players positions
@@ -26,9 +26,9 @@ function moveLeft(params) {
 };
 function moveRight(params) {
     const effect = (relevantParams) => {
-        const { player, gameData, spell } = relevantParams;
+        const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
-        const POS_MAX = 13; // 0 - 13 total positions = 14
+        const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14
         const targetPos = me.pos + 1 > POS_MAX ? 0 : me.pos + 1;
 
         Object.keys(gameData).map(key => {

@@ -88,8 +88,9 @@ const magicProcessSuccess = (params) => {
 };
 
 class Actions {
-    constructor(gameData) {
+    constructor(gameData, config) {
         this.gameData = gameData;
+        this.config = config;
     }
     availableActions(player, act) {
         const list = {
@@ -125,7 +126,7 @@ class Actions {
             if (!spell.finished) {
                 spell.delivery -= 1;
                 if (spell.delivery <= 0) {
-                    spell.effect({player, gameData, spell});
+                    spell.effect({player, gameData, spell, config: this.config});
                     spell.exec = true;
                 };
              }

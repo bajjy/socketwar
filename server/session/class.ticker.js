@@ -1,9 +1,10 @@
-const fps60 = 1000 / 60;
+//const fps60 = 1000 / 60;
 
 class Ticker {
-    constructor() {
+    constructor(CONFIG) {
+        this.config = CONFIG;
         this.cycle;
-        this.speed = 0.1//0.016;
+        this.speed = CONFIG.speed//0.1//0.016;
         this.time = 0;
     }
     run(callback) {
@@ -11,7 +12,7 @@ class Ticker {
         this.cycle = setInterval(() => {
             callback()
             ++this.time;
-        }, fps60 / this.speed);
+        }, this.config.fps / this.speed);
         // }, 1000);
     };
 }

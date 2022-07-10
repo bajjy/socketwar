@@ -58,7 +58,6 @@ class Controls {
         
         window.addEventListener('keydown', (event) => {
             keyStateIs(event);
-
         }, true);
         window.addEventListener('keyup', (event) => {
             keyStateIs(event);
@@ -67,6 +66,7 @@ class Controls {
             mouseMoveIs(event);
         }, true);
         window.addEventListener('mousedown', (event) => {
+            console.log(666666)
             mouseDownIs(event);
         }, true);
         window.addEventListener('mouseup', (event) => {

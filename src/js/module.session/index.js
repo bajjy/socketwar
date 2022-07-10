@@ -6,25 +6,6 @@ function act(target, prop, value) {
     actions.push({ target, prop, value });
     if (actions.length > 2) actions.shift();
 };
-function ctrl(controls) {
-    controls.bind([
-        {
-            keys: ['W'], action: () => act(['clients', clientIndex, 'unit', 'skills', 'moving'], 'up', 10)//gg.eb.emit('socketUpdateGame', [unit.skills.moving.up] = 1) //хуйня. сделать чтоб была рассылка и прием по тику
-        },
-        {
-            keys: ['S'], action: () => act(['clients', clientIndex, 'unit', 'skills', 'moving'], 'down', 10)
-        },
-        {
-            keys: ['D'], action: () => act(['clients', clientIndex, 'unit', 'skills', 'moving'], 'right', 10)
-        },
-        {
-            keys: ['A'], action: () => act(['clients', clientIndex, 'unit', 'skills', 'moving'], 'left', 10)
-        },
-        {
-            keys: ['SPACE'], action: () => act(['clients', clientIndex, 'unit', 'skills', 'fire'], 'fire', 1)
-        }
-    ]);
-}
 
 export default {
     name: 'session',
@@ -38,20 +19,8 @@ export default {
             arcanes: [],
             lastArcane: null
         };
+        console.log(33333)
         state.session['render'] = new Render(state);
-        // state.session.controls.bindMouse([
-        //     {
-        //         mouse: ['MOVE'], 
-        //         action: (e) => {
-        //             const req = {
-        //                 title: 'moveCursor',
-        //                 x: e.event.x,
-        //                 y: e.event.y,
-        //             }
-        //             this.act(state, req);
-        //         }
-        //     }
-        // ])
     },
     act(state, req) {
         state.session.actions.push(req);

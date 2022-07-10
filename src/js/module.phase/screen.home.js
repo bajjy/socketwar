@@ -41,6 +41,7 @@ export default function home(params) {
 
         socket.emit('create-request', elements.nickname.value, res => {
             state.meta.player = res;
+            state.meta.config = res.config;
             commands.switchScreen('team');
             console.log(state)
         });
@@ -56,6 +57,7 @@ export default function home(params) {
         }
         socket.emit('join-request', req, res => {
             state.meta.player = res;
+            state.meta.config = res.config;
             commands.switchScreen('team');
         });
     });

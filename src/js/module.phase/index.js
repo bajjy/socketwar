@@ -5,7 +5,7 @@ import screenGame from './screen.game';
 
 const socket = io();
 const state = {
-    screen: 'home',
+    screen: 'game',
     screens: {
         home: screenHome,
         team: screenTeam,

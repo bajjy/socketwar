@@ -1,4 +1,5 @@
 const Session = require('./session');
+const CONFIG = require('./config');
 const stash = {};
 
 const getByOwner = (owner) => Object.keys(stash).find(key => stash[key].owner === owner);
@@ -73,7 +74,12 @@ function socketListener(io) {
             response({
                 role: 'owner',
                 name: ownerName,
-                link: store.link
+                link: store.link,
+                config: {
+                    fps: CONFIG.fps,
+                    speed: CONFIG.speed,
+                    battlefieldSize: CONFIG.battlefieldSize,
+                }
             });
         });
         socket.on('join-request', ({ name, link }, response) => {
@@ -93,7 +99,12 @@ function socketListener(io) {
             response({
                 role: 'player',
                 name: name,
-                link: store.link
+                link: store.link,
+                config: {
+                    fps: CONFIG.fps,
+                    speed: CONFIG.speed,
+                    battlefieldSize: CONFIG.battlefieldSize,
+                }
             })
         });
         socket.on('get-teams', () => {
@@ -115,8 +126,14 @@ function socketListener(io) {
                 socket.emit('server-error', {error: 'Not allowed!'} );
             }
 
-            store.game = new Session(store, io);
-            io.in(room).emit('new-game-response');
+            store.game = new Session(store, io, CONFIG);
+            io.in(room).emit('new-game-response', {
+                config: {
+                    fps: CONFIG.fps,
+                    speed: CONFIG.speed,
+                    battlefieldSize: CONFIG.battlefieldSize,
+                }
+            });
         });
         socket.on('start-game', () => {
             const [store, player] = getLinkBySocket(socket.id);

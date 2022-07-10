@@ -1,7 +1,6 @@
 function graphicsRegularMessage(params, msg) {
     const { elements } = params;
     const msgElemName = `regularMessage`;
-    console.log(msg.timer)
     if (msg.running) {
         if (msg.timer === 0) {
             elements.gameCanvas.querySelector('.' + msgElemName).remove();

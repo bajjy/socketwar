@@ -20,16 +20,18 @@ const getNum = (list) => {
 };
 
 class Session {
-    constructor(storeData, io) {
+    constructor(storeData, io, CONFIG) {
         this.store = storeData;
         this.gameData = {};
-        this.ticker = new Ticker();
-        this.actions = new Actions(this.gameData);
+        this.config = CONFIG;
+        this.ticker = new Ticker(CONFIG);
+        this.actions = new Actions(this.gameData, this.config);
     }
     start(cb) {
         const squotted = [];
         this.store.players.map(p => {
             const pos = getNum(squotted);
+            squotted.push(pos)
             this.gameData[p.socket] = JSON.parse( JSON.stringify({ ...seedData, meta: p }) );
             this.gameData[p.socket].pos = pos;
         });
