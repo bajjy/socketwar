@@ -19,7 +19,7 @@ export default {
             arcanes: [],
             lastArcane: null
         };
-        console.log(33333)
+
         state.session['render'] = new Render(state);
     },
     act(state, req) {

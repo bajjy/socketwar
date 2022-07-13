@@ -3,31 +3,30 @@ import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
 import graphicsPlayersPos from './graphicsPlayersPos';
 
 function gamestateIdle(params) {
-    const { state, session, elements } = params;
+    const { state, session, elements, renderStore } = params;
     const req = {
         title: 'magicStarted'
     };
+
+    delete renderStore.magicProcessBraker;
+    delete renderStore.magicProcessSuccess;
 
     elements.magiccircle.classList.add('hidden');
     elements.startspell.classList.remove('hidden');
     session.arcanes = [];
     session.lastArcane = null;
-console.log(11111)
+
     state.session.controls.bindMouse([
         {
             mouse: ['DOWN'],
             action: (e) => {
                 console.log('startspell');
                 e.event.target === elements.startspell && session.act(state, req);
+                state.session.controls.unbindMouse('DOWN');
             }
         }
     ]);
-    state.session.controls.bindMouse([
-        {
-            mouse: ['MOVE'],
-            action: () => { }
-        }
-    ]);
+    state.session.controls.unbindMouse('MOVE');
 };
 
 function gamestateMagicStarted(params) {
@@ -35,12 +34,8 @@ function gamestateMagicStarted(params) {
 
     elements.magiccircle.classList.remove('hidden');
     elements.startspell.classList.add('hidden');
-    state.session.controls.bindMouse([
-        {
-            mouse: ['DOWN'],
-            action: () => { }
-        }
-    ]);
+    
+    state.session.controls.unbindMouse('DOWN');
     state.session.controls.bindMouse([
         {
             mouse: ['MOVE'],
@@ -58,11 +53,17 @@ function gamestateMagicStarted(params) {
     state.session.controls.mouselayout.mousedown.status = true;
 };
 function gamestateMagicProcess(params) {
-    const { state, session, me } = params;
+    const { state, session, me, renderStore } = params;
     const isMouseDown = state.session.controls.mouselayout.mousedown.status;
 
-    if (!isMouseDown && me.arcanes.length) return session.act(state, { title: 'magicProcessSuccess' });
-    if (!isMouseDown && !me.arcanes.length) session.act(state, { title: 'magicProcessBraker' });
+    if (!isMouseDown && me.arcanes.length && !renderStore.magicProcessSuccess) {
+        renderStore.magicProcessSuccess = true;
+        return session.act(state, { title: 'magicProcessSuccess' });
+    };
+    if (!isMouseDown && !me.arcanes.length && !renderStore.magicProcessBraker) {
+        renderStore.magicProcessBraker = true;
+        session.act(state, { title: 'magicProcessBraker' });
+    };
 };
 function gamestateMagicSelectTarget(params) {
     const { state, session, elements } = params;
@@ -96,8 +97,9 @@ class Render {
         this.time = 0;
         this.messages = [];
         this.cycle;
-console.log(2222222)
-        gamestateIdle(this);
+        this.renderStore = {};
+
+        //gamestateIdle(this);
         this.cycle = setInterval(() => {
             this.messages = this.messages.filter(msg => msg.timer >= 0);
             this.messages.map(msg => {
@@ -113,10 +115,11 @@ console.log(2222222)
 
         this.data = data;
         this.me = me;
-
+console.log(me)
         if (me.magicStartedOk) gamestateMagicStarted(this);
         if (me.magicStarted) gamestateMagicProcess(this);
         if (me.magicEnded) gamestateIdle(this);
+        if (this.time === 1) gamestateIdle(this);
     }
     spellsManager(data) {
         const socket = this.state.system.socket.id;

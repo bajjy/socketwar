@@ -55,7 +55,7 @@ const spells = {
         const { arcanes } = params.me;
         const spell = arcanes.join('');
         const spellFunc = this.list[spell];
-
+//return spell failed to player state
         if (!spellFunc) return { arcanes, error: 1, message: 'not exist' };
         
         SPELL_INDEX = s4();

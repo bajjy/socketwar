@@ -66,7 +66,6 @@ class Controls {
             mouseMoveIs(event);
         }, true);
         window.addEventListener('mousedown', (event) => {
-            console.log(666666)
             mouseDownIs(event);
         }, true);
         window.addEventListener('mouseup', (event) => {
@@ -95,6 +94,15 @@ class Controls {
                 }
             })
         })
+    }
+
+    unbindMouse(action) {
+        this.bindMouse([
+            {
+                mouse: [action],
+                action: () => {}
+            }
+        ]);
     }
 
     unbind(actions) {

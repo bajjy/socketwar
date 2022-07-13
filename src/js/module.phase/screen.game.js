@@ -41,10 +41,10 @@ export default function game(params) {
     // session.init(state, elements.gameCanvas, elements);
 
     socket.on('ticker-tick', res => {
-        // console.log(res.data[socket.id])
         session.tick(state);
-        // console.log(res.data[socket.id].magicStarted)
+
         if (state.session.actions.length) socket.emit('ticker-tick-request', state.session.actions);
+        
         session.clearActions(state);
         session.tickApply(res, state);
     });
