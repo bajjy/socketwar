@@ -20,6 +20,11 @@ const allowedActions = {
     magicProcessSuccess(params) {
         const { me } = params;
         if (me.magicStarted) return true
+    },
+    magicProcessSetTarget(params) {
+        const { me, act } = params;
+        const lastSpell = me.spells.find(s => s.spellIndex == act.value.spellIndex);
+        if (lastSpell && lastSpell.setTarget) return true;
     }
 };
 const moveCursor = (params) => {
@@ -86,6 +91,31 @@ const magicProcessSuccess = (params) => {
     me.spells.push(spellResult);
     
 };
+const magicProcessSetTarget = (params) => {
+    const {
+        gameData,
+        me,
+        act,
+    } = params;
+    const targetPos = act.value.target;
+    const lastSpell = me.spells.find(s => s.spellIndex == act.value.spellIndex);
+    let isValid = false;
+
+    console.log('setting target')
+    console.log(act)
+
+    if (lastSpell.setTarget) {
+        isValid = lastSpell.validation({...params, spell: lastSpell});
+        if (!isValid) return;
+        lastSpell.setTarget = false;
+        lastSpell.target = targetPos;
+        lastSpell.delivery = lastSpell.targetDelivery;
+    }
+    //check if target is legit for spell
+    //set target property on spell index
+    // set setTarget on spell = false
+    // set delivery = targetDelivery
+};
 
 class Actions {
     constructor(gameData, config) {
@@ -98,7 +128,8 @@ class Actions {
             magicStarted,
             magicProcessBraker,
             magicArcaneSet,
-            magicProcessSuccess
+            magicProcessSuccess,
+            magicProcessSetTarget
         };
         list[act.title]({
             gameData: this.gameData,

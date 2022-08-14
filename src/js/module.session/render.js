@@ -3,7 +3,7 @@ import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
 import graphicsPlayersPos from './graphicsPlayersPos';
 
 function gamestateIdle(params) {
-    const { state, session, elements, renderStore } = params;
+    const { state, session, elements, renderStore, me } = params;
     const req = {
         title: 'magicStarted'
     };
@@ -20,9 +20,27 @@ function gamestateIdle(params) {
         {
             mouse: ['DOWN'],
             action: (e) => {
-                console.log('startspell');
-                e.event.target === elements.startspell && session.act(state, req);
-                state.session.controls.unbindMouse('DOWN');
+                const lastSpell = me.spells[me.spells.length - 1];
+                console.log(me);
+                console.log(e.event.target);
+                console.log(e.event.target.dataset.startspell);
+                if (e.event.target.dataset.startspell) {
+                    console.log('startspell');
+                    session.act(state, req);
+                    return state.session.controls.unbindMouse('DOWN');
+                };
+                if (e.event.target.dataset.target && lastSpell && lastSpell.setTarget) {
+                    console.log('set target', e.event.target.dataset.target);
+                    session.act(state, {
+                        title: 'magicProcessSetTarget',
+                        value: {
+                            target: e.event.target.dataset.target,
+                            spellIndex: lastSpell.spellIndex,
+                        }
+                    });
+                };
+                // e.event.target === elements.startspell && session.act(state, req);
+                // state.session.controls.unbindMouse('DOWN');
             }
         }
     ]);
@@ -64,6 +82,12 @@ function gamestateMagicProcess(params) {
         renderStore.magicProcessBraker = true;
         session.act(state, { title: 'magicProcessBraker' });
     };
+};
+
+function gamestateMagicFailed(params) {
+    const { state, session, me, renderStore } = params;
+    //clear arcanes, message, update graphs
+    console.log(me.spellFailed);
 };
 function gamestateMagicSelectTarget(params) {
     const { state, session, elements } = params;
@@ -116,6 +140,8 @@ class Render {
         this.data = data;
         this.me = me;
 console.log(me)
+
+        if (me.spellFailedOk) gamestateMagicFailed(this);
         if (me.magicStartedOk) gamestateMagicStarted(this);
         if (me.magicStarted) gamestateMagicProcess(this);
         if (me.magicEnded) gamestateIdle(this);

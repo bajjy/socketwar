@@ -1,9 +1,7 @@
-let SPELL_INDEX = s4();
+const s4spellIndex = require('./s4spellIndex');
+const fireBallTarget = require('./spells/fireBallTarget');
 
-function s4() {
-    var r = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    return r() + r();
-};
+let SPELL_INDEX = s4spellIndex();
 
 function moveLeft(params) {
     const effect = (relevantParams) => {
@@ -13,10 +11,10 @@ function moveLeft(params) {
         const targetPos = me.pos - 1 < 0 ? POS_MAX : me.pos - 1;
 
         //check players positions
-        // Object.keys(gameData).filter(pl => pl !== player).map(key => {
-        Object.keys(gameData).map(key => {
+        Object.keys(gameData).filter(pl => pl !== player).map(key => {
+            // Object.keys(gameData).map(key => {
             if (gameData[key].pos === targetPos) {
-            // if (gameData[key].pos) {
+                // if (gameData[key].pos) {
                 spell.breaked = { by: key, message: 'FAIL' }
             }
         });
@@ -31,9 +29,10 @@ function moveRight(params) {
         const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14
         const targetPos = me.pos + 1 > POS_MAX ? 0 : me.pos + 1;
 
-        Object.keys(gameData).map(key => {
+        Object.keys(gameData).filter(pl => pl !== player).map(key => {
+            // Object.keys(gameData).map(key => {
             if (gameData[key].pos === targetPos) {
-            // if (gameData[key].pos) {
+                // if (gameData[key].pos) {
                 spell.breaked = { by: key, message: 'FAIL' }
             }
         });
@@ -42,23 +41,24 @@ function moveRight(params) {
     return { spellIndex: SPELL_INDEX, ok: true, name: 'moveRight', title: 'Move right', delivery: 5, message: 'moved right', effect }
 };
 function selfInvincibleStun(params) {
-    
+
 };
 
 const spells = {
     list: {
         '2': moveLeft, //left
         '6': moveRight, //right
-        '167': selfInvincibleStun
+        '167': selfInvincibleStun,
+        '350': fireBallTarget,
     },
     cast(params) {
         const { arcanes } = params.me;
         const spell = arcanes.join('');
         const spellFunc = this.list[spell];
-//return spell failed to player state
+
         if (!spellFunc) return { arcanes, error: 1, message: 'not exist' };
-        
-        SPELL_INDEX = s4();
+
+        SPELL_INDEX = s4spellIndex();
         return spellFunc(params);
     }
 }
