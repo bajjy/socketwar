@@ -17,7 +17,8 @@ const config = {
     }
 }
 class Controls {
-    constructor(game) {
+    constructor(state) {
+        this.state = state;
         this.keylayout = {};
         this.keyaction = {};
         this.mouselayout = {};
@@ -80,7 +81,7 @@ class Controls {
             ac.keys.map(kk => {
                 this.keylayout[ config.KEY[kk] ] = {
                     status: false,
-                    action: () => ac.action()
+                    action: () => ac.action(this.keylayout[ config.KEY[kk] ], this.state)
                 }
             })
         })
@@ -90,7 +91,7 @@ class Controls {
             ac.mouse.map(kk => {
                 this.mouselayout[ config.MOUSE[kk] ] = {
                     status: false,
-                    action: () => ac.action(this.mouselayout[ config.MOUSE[kk] ])
+                    action: () => ac.action(this.mouselayout[ config.MOUSE[kk] ], this.state)
                 }
             })
         })

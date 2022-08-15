@@ -102,7 +102,6 @@ const magicProcessSetTarget = (params) => {
     let isValid = false;
 
     console.log('setting target')
-    console.log(act)
 
     if (lastSpell.setTarget) {
         isValid = lastSpell.validation({...params, spell: lastSpell});
@@ -110,11 +109,7 @@ const magicProcessSetTarget = (params) => {
         lastSpell.setTarget = false;
         lastSpell.target = targetPos;
         lastSpell.delivery = lastSpell.targetDelivery;
-    }
-    //check if target is legit for spell
-    //set target property on spell index
-    // set setTarget on spell = false
-    // set delivery = targetDelivery
+    };
 };
 
 class Actions {

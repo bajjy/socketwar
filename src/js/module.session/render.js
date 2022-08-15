@@ -3,7 +3,7 @@ import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
 import graphicsPlayersPos from './graphicsPlayersPos';
 
 function gamestateIdle(params) {
-    const { state, session, elements, renderStore, me } = params;
+    const { state, session, elements, renderStore,  } = params;
     const req = {
         title: 'magicStarted'
     };
@@ -19,18 +19,19 @@ function gamestateIdle(params) {
     state.session.controls.bindMouse([
         {
             mouse: ['DOWN'],
-            action: (e) => {
+            action: (e, currentState) => {
+                const { me, renderStore } = currentState.session.render;
                 const lastSpell = me.spells[me.spells.length - 1];
+
                 console.log(me);
-                console.log(e.event.target);
-                console.log(e.event.target.dataset.startspell);
                 if (e.event.target.dataset.startspell) {
                     console.log('startspell');
                     session.act(state, req);
                     return state.session.controls.unbindMouse('DOWN');
                 };
-                if (e.event.target.dataset.target && lastSpell && lastSpell.setTarget) {
+                if (e.event.target.dataset.target && lastSpell && lastSpell.setTarget && !renderStore.magicProcessSetTarget) {
                     console.log('set target', e.event.target.dataset.target);
+                    renderStore.magicProcessSetTarget = true;
                     session.act(state, {
                         title: 'magicProcessSetTarget',
                         value: {
@@ -139,7 +140,6 @@ class Render {
 
         this.data = data;
         this.me = me;
-console.log(me)
 
         if (me.spellFailedOk) gamestateMagicFailed(this);
         if (me.magicStartedOk) gamestateMagicStarted(this);
@@ -150,6 +150,9 @@ console.log(me)
     spellsManager(data) {
         const socket = this.state.system.socket.id;
         const me = data[socket];
+        const lastSpell = me.spells[me.spells.length - 1];
+
+        if (lastSpell && !lastSpell.setTarget && lastSpell.target) delete this.renderStore.magicProcessSetTarget;
 
         me.spells.map(spell => {
             spell.exec && console.log(spell.message)

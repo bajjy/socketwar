@@ -13,7 +13,7 @@ export default {
         state.session = {
             canvas: gameCanvas,
             elements,
-            controls: new Controls({}),
+            controls: new Controls(state),
             actions: [],
             act: this.act,
             arcanes: [],

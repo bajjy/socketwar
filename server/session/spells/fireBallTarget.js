@@ -20,7 +20,7 @@ function fireBallTarget(params) {
         const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
         //Fireball should set target
-        console.log('fireBall effect');
+        console.log('fireBall effect', 'target: ', spell.target);
         if (!spell.target) {
             spell.breaked = { by: 'you', message: 'target is not set' }
             return;
