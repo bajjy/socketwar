@@ -15,7 +15,9 @@ const MIME = {
     '.sfnt': 'application/font-sfnt',
     '.ico': 'image/x-icon',
     '.mp3': 'application/octet-stream',
-    '.png': 'image/png'
+    '.png': 'image/png',
+    '.gltf': 'model/gltf+json',
+    '.glb': 'model/gltf-binary',
 };
 const isAllowed = (filePath, extname, contentType) => {
     const exist = fs.existsSync(filePath);

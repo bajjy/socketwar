@@ -21,7 +21,7 @@ function fireBallTarget(params) {
         const me = gameData[player];
         //Fireball should set target
         console.log('fireBall effect', 'target: ', spell.target);
-        if (!spell.target) {
+        if (typeof spell.target !== 'number') {
             spell.breaked = { by: 'you', message: 'target is not set' }
             return;
         }
@@ -32,7 +32,7 @@ function fireBallTarget(params) {
         name: 'fireBallTarget', 
         title: 'Fire Ball', 
         delivery: 10, 
-        targetDelivery: 5,
+        targetDelivery: 3,
         message: 'fire ball casted', 
         setTarget: true,
         target: false,

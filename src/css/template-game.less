@@ -1,10 +1,12 @@
 .template-game {
     height: 100%;
     user-select: none;
+    color: black;
+    background-color: #3b3b3b;
     .gameCanvas {
         position: relative;
         height: 100%;
-        
+        z-index: 2;
     }
     .gameInfo {
         position: absolute;
@@ -16,6 +18,10 @@
         font-weight: 900;
         text-shadow: 5px 5px #f6a76a;
         color: #e26b16;
+        z-index: 1;
+    }
+    a-scene {
+        z-index: 0;
     }
     .hidden {
         display: none;
@@ -34,7 +40,7 @@
         &.me {
             border-color: white;
             background-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px 5px white;
+            box-shadow: 0 0 15px 5px black;
             color: white;
         }
         .pl-name {
@@ -50,20 +56,20 @@
     .battlefield {
         position: absolute;
         left: 0; 
-        top: 10%; 
-        //bottom: 0; 
+        // top: 10%; 
+        bottom: 15%; 
         right: 0; 
         margin: auto;
         width: 500px;
         height: 500px;
         border-radius: 50%;
-        box-shadow: 0 0 0 2px white;
+        box-shadow: 0 0 0 2px black;
         .circle {
             position: absolute;
             width: 10%;
             height: 10%;
             border-radius: 50%;
-            box-shadow: 0 0 0 2px white;
+            box-shadow: 0 0 0 2px rgb(15, 15, 15);
             background-color: #0e0e0e;
             //backdrop-filter: blur(3px);
             &.circle-1 {
@@ -127,14 +133,14 @@
     .magiccircle {
         position: absolute;
         left: 0; 
-        bottom: 10%;
+        bottom: 25%;
         right: 0; 
         margin: auto;
         width: 300px;
         height: 300px;
         border-radius: 50%;
-        box-shadow: 0 0 40vw 20vw #0e0e0e;
-        background-color: #0e0e0e;
+        //box-shadow: 0 0 40vw 20vw #0e0e0e;
+        //background-color: #0e0e0e;
         .circle {
             display: flex;
             justify-content: center;
@@ -143,7 +149,7 @@
             width: 10%;
             height: 10%;
             border-radius: 50%;
-            box-shadow: 0 0 0 2px white;
+            box-shadow: 0 0 0 2px rgb(0, 0, 0);
             > div {
                 display: flex;
                 justify-content: center;
@@ -191,14 +197,14 @@
     .startspell {
         position: absolute;
         left: 0; 
-        bottom: 22%;
+        bottom: 30%;
         right: 0;
         margin: auto;
         width: 100px;
         height: 100px;
         border-radius: 50%;
         background-image: url(/images/just-waves.png);
-        box-shadow: inset 5px 5px 15px 10px rgba(255, 255, 255, 0.7);
+        //box-shadow: inset 5px 5px 15px 10px rgba(255, 255, 255, 0.7);
         .keyframes(flow; {
             0% {
                 background-position: 0% 0;
@@ -218,6 +224,13 @@
         pointer-events: none;
         border-radius: 50%;
         background-color: #f6a76a;
+    }
+    .fireBallTarget-point {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 40%;
+        background-color: #df5429;
+        box-shadow: 0 0 12px 0 #ffeeca, 0 0 3px 2px #ff0000;
     }
     .regular-msg {
         position: absolute;

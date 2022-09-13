@@ -50,6 +50,19 @@ const TEMPLATE_GAME = /*html*/`
         <div class="gameInfo hidden">
             READY
         </div>
+        <!-- a-scene>
+            <a-assets>
+                <a-asset-item id="character_rogue" src="/models/ch/character_rogue.gltf"></a-asset-item>
+            </a-assets>
+            <!-position="x y z" - z far from obj ->
+            <a-entity 
+                id="base_camera" 
+                camera
+                position="0 15 10" 
+                rotation="-50 0 0"
+            ></a-entity>
+            <a-entity gltf-model="#character_rogue" modify-materials scale="1 1 1"></a-entity>
+        </a-scene-->
     </div>
 `;
 

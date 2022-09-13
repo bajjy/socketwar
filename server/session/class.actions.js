@@ -101,13 +101,13 @@ const magicProcessSetTarget = (params) => {
     const lastSpell = me.spells.find(s => s.spellIndex == act.value.spellIndex);
     let isValid = false;
 
-    console.log('setting target')
+    console.log('setting target', targetPos)
 
     if (lastSpell.setTarget) {
         isValid = lastSpell.validation({...params, spell: lastSpell});
         if (!isValid) return;
         lastSpell.setTarget = false;
-        lastSpell.target = targetPos;
+        lastSpell.target = parseInt(targetPos);
         lastSpell.delivery = lastSpell.targetDelivery;
     };
 };

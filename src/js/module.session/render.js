@@ -1,5 +1,6 @@
 import graphicsRegularMessage from './graphicsRegularMessage';
 import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
+import graphicsSpellsFireBallTarget from './graphicsSpellsFireBallTarget';
 import graphicsPlayersPos from './graphicsPlayersPos';
 
 function gamestateIdle(params) {
@@ -152,7 +153,7 @@ class Render {
         const me = data[socket];
         const lastSpell = me.spells[me.spells.length - 1];
 
-        if (lastSpell && !lastSpell.setTarget && lastSpell.target) delete this.renderStore.magicProcessSetTarget;
+        if (lastSpell && !lastSpell.setTarget && typeof lastSpell.target === 'number') delete this.renderStore.magicProcessSetTarget;
 
         me.spells.map(spell => {
             spell.exec && console.log(spell.message)
@@ -167,6 +168,7 @@ class Render {
             if (this.time === 1) graphicsPlayersPos(this, player, key); //first run set positions;
 
             graphicsSpellsMoveRight(this, player, key);
+            graphicsSpellsFireBallTarget(this, player, key);
             player.spells.map(spell => {
 
             })
