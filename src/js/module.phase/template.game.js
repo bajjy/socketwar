@@ -2,6 +2,7 @@
 const TEMPLATE_GAME = /*html*/`
     <div class="template-game">
         <div class="gameCanvas">
+            <div class="floor"></div>
             <div class="battlefield">
                 <div class="circle circle-1" data-target="0"></div>
                 <div class="circle circle-2" data-target="1"></div>
