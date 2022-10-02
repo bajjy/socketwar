@@ -3,8 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
-const envargv = JSON.parse(process.env['npm_config_argv']).cooked;
-const targ = envargv[envargv.indexOf('--variant') + 1];
+const envargv = process.env['npm_config_argv'] && JSON.parse(process.env['npm_config_argv']).cooked;
+const targ = envargv && envargv[envargv.indexOf('--variant') + 1];
 const outputPath = path.join(__dirname, 'dist');
 const target = '/src';
 

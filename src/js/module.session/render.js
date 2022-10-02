@@ -161,12 +161,11 @@ class Render {
     }
     graphicsManager() {
         const players = this.session.render.data;
-
         Object.keys(players).map((key, index) => {
             const player = players[key];
 
             if (this.time === 1) graphicsPlayersPos(this, player, key); //first run set positions;
-
+            
             graphicsSpellsMoveRight(this, player, key);
             graphicsSpellsFireBallTarget(this, player, key);
             player.spells.map(spell => {
