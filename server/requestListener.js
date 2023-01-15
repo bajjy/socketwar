@@ -5,6 +5,7 @@ const routes = require('./routes');
 const MIME = {
     '.html': 'text/html',
     '.js': 'text/javascript',
+    '.json': 'application/json',
     '.css': 'text/css',
     '.svg': 'image/svg+xml',
     '.ttf': 'application/x-font-ttf',

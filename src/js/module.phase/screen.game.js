@@ -29,6 +29,7 @@ export default function game(params) {
         socket.emit('get-teams');
         socket.emit('update-teams', 1);
         socket.on('get-teams-response', () => socket.emit('new-game') );
+        
         socket.on('new-game-response', (res) => {
             socket.emit('start-game');
         });
@@ -42,7 +43,6 @@ export default function game(params) {
 
     socket.on('ticker-tick', res => {
         session.tick(state);
-
         if (state.session.actions.length) socket.emit('ticker-tick-request', state.session.actions);
         
         session.clearActions(state);

@@ -34,6 +34,9 @@ class Session {
             squotted.push(pos)
             this.gameData[p.socket] = JSON.parse( JSON.stringify({ ...seedData, meta: p }) );
             this.gameData[p.socket].pos = pos;
+            this.gameData[p.socket].baseHealth = this.config.hp;
+            this.gameData[p.socket].actualHealth = this.config.hp;
+            this.gameData[p.socket].affectedHealth = this.config.hp;
         });
         this.ticker.run(cb);
     }

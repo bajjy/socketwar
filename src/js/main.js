@@ -5,7 +5,9 @@ import './poly.raftimer.js';
 /*modules */
 import phase from './module.phase';
 
-var main = document.querySelector('main');
+window.stopRender = false;
+
+const main = document.querySelector('main');
 
 function init() {
     phase.init(main)

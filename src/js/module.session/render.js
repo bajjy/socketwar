@@ -2,6 +2,7 @@ import graphicsRegularMessage from './graphicsRegularMessage';
 import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
 import graphicsSpellsFireBallTarget from './graphicsSpellsFireBallTarget';
 import graphicsPlayersPos from './graphicsPlayersPos';
+import graphicsInterfacePlayerInfo from './graphicsInterfacePlayerInfo';
 
 function gamestateIdle(params) {
     const { state, session, elements, renderStore,  } = params;
@@ -168,12 +169,15 @@ class Render {
             
             graphicsSpellsMoveRight(this, player, key);
             graphicsSpellsFireBallTarget(this, player, key);
+            graphicsInterfacePlayerInfo(this, player, key);
             player.spells.map(spell => {
 
             })
         });
     }
     update(data) {
+        if (window.stopRender) return;
+
         this.stateManager(data);
         this.spellsManager(data);
         this.graphicsManager();

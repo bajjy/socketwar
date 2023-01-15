@@ -1,5 +1,6 @@
 const s4spellIndex = require('../s4spellIndex');
 let SPELL_INDEX = s4spellIndex();
+const NAME = 'fireBallTarget';
 
 function fireBallTarget(params) {
     const validation = (validationParams) => {
@@ -19,6 +20,20 @@ function fireBallTarget(params) {
     const effect = (relevantParams) => {
         const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
+        const targets = Object.keys(gameData).filter(targ => gameData[targ].pos === spell.target);
+
+        targets.map(target => 
+            gameData[target].effects.push({
+                causedBy: player,
+                target: target,
+                effType: 'damage',
+                damage: config.spells[NAME].damage,
+                source: config.spells[NAME].source,
+                spell: spell,
+                finished: false
+            })
+        );
+
         //Fireball should set target
         console.log('fireBall effect', 'target: ', spell.target);
         if (typeof spell.target !== 'number') {
@@ -29,7 +44,7 @@ function fireBallTarget(params) {
     return { 
         spellIndex: SPELL_INDEX, 
         ok: true, 
-        name: 'fireBallTarget', 
+        name: NAME, 
         title: 'Fire Ball', 
         delivery: 10, 
         targetDelivery: 3,

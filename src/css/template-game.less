@@ -27,8 +27,11 @@
     width: 200%;
     height: 200%;
     transform: rotate3d(1, 0, 0, 0deg) translate3d(-25%, -25%, 0px);
-    background-image: url(/images/TILE_3C.png);
+    background-image: url(/images/map_desert_temple.png);
+    background-position: 50% -530px ;
+    background-size: 1500px;
     opacity: 0.7;
+    z-index: -2;
   }
   a-scene {
     z-index: 0;
@@ -73,27 +76,27 @@
     height: 500px;
     border-radius: 50%;
     transform: rotate3d(1, 0, 0, 0deg);
+    z-index: -1;
     .circle {
-      // position: absolute;
-      // width: 10%;
-      // height: 10%;
-      // border-radius: 5%;
-      // box-shadow: 0px 5px 0px 0px #191919, 0px 10px 0px 0px #191919, 0px 35px 15px -5px #191919;
-      // background-color: #2b2b2b;
-      // background-image: url(/images/LAB_2B.png);
-      // background-size: 50px;
-      
       position: absolute;
-      width: 10%;
-      height: 10%;
+      width: 15%;
+      height: 15%;
       border-radius: 5%;
-      /* box-shadow: 0px 5px 0px 0px #191919, 0px 10px 0px 0px #191919, 0px 35px 15px -5px #191919; */
       background-color: rgba(55, 55, 55, 0.7);
-      /* background-image: url(/images/LAB_2B.png); */
       border-radius: 50%;
       background-size: 50px;
       box-shadow: inset 1px 2px 2px 0px black;
-    
+      &:after {
+        content: '';
+        position: absolute;
+        top: -30%;
+        left: -30%;
+        width: 150%;
+        height: 150%;
+        z-index: -1;
+        background-size: contain;
+        background-image: url(/images/place2.png);
+      }
       &.circle-1 {
         left: calc(50% - 5%);
         top: calc(0% - 5%);
@@ -246,6 +249,7 @@
     pointer-events: none;
     border-radius: 50%;
     background-color: #f7f7f7;
+    z-index: -1;
     //transform: translate3d(20px, -20px, 130px);
     // &[data-player-pos="0"] { transform: translate3d(5px, -20px, 130px); }
     // &[data-player-pos="13"], 
@@ -279,5 +283,50 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 30vh;
+  }
+}
+
+.player-detail {
+  position: absolute;
+  pointer-events: none;
+  width: 200px;
+  padding: 10px;
+  background-color: rgb(59, 59, 59);
+  color: white;
+  text-shadow: 1px 1px black;
+  background-image: url(/images/marble_12.png);
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.55);
+  .grBorder(5px, 5px, right, #d3ae37, #765d13);
+
+  .player-name {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.85em;
+    text-align: center;
+    border: 1px solid #b19025;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #141003;
+    .player-name-text {
+      position: relative;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+    .player-hp-bar {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      background-color: rgba(179, 57, 57, 0.7);
+      background-image: url(/images/marble_12.png);
+      background-size: 50px;
+      box-shadow: inset 0 -10px 5px 0px rgba(46, 0, 0, 0.55), inset -1px 0px 0px 0px black;
+      border-radius: 5px;
+    }
+  }
+  .player-hp {
+    position: relative;
   }
 }

@@ -81,7 +81,34 @@ function socketListener(io) {
                     battlefieldSize: CONFIG.battlefieldSize,
                 }
             });
+
+            //remove DUMMY
+            //remove DUMMY
+            //remove DUMMY
+            //remove DUMMY
+            //remove DUMMY
+            console.log('new player: ' + 'dummy');
+            socket.join(store.room);
+            store.players.push({
+                name: 'DUMMY',
+                team: false,
+                socket: 'socket.id'
+            });
+
+            io.in(store.room).emit('get-teams-response', getTeams(store.players));
+            response({
+                role: 'player',
+                name: 'DUMMY',
+                link: store.link,
+                config: {
+                    fps: CONFIG.fps,
+                    speed: CONFIG.speed,
+                    battlefieldSize: CONFIG.battlefieldSize,
+                }
+            })
         });
+        //end remove
+
         socket.on('join-request', ({ name, link }, response) => {
             const store = getLink(link);
 

@@ -155,15 +155,38 @@ class Actions {
                     spell.effect({player, gameData, spell, config: this.config});
                     spell.exec = true;
                 };
-             }
+            }
         });
 
     }
+    checkEffects(player) {
+        const gameData = this.gameData;
+        const me = gameData[player];
+        const effects = me.effects.filter(ef => !ef.finished);
+        
+        //damage control
+        // me.baseHealth
+        // me.actualHealth
+        // me.affectedHealth
+
+        const damageEffects = effects.filter(ef => ef.effType === 'damage').reduce((partialSum, a) => partialSum + a.damage, 0);
+        me.affectedHealth = me.actualHealth - damageEffects;
+
+        effects.map(effect => {
+            if (effect.delivery) effect.delivery -= 1;
+            if (effect.delivery <= 0) {
+                //effect.effect({player, gameData, spell, config: this.config});
+                effect.finished = true;
+            };
+        });
+    }
+
     checkAction(player) {
         if (this.gameData[player]) {
             const thePlayer = this.gameData[player];
             
             this.checkSpells(player);
+            this.checkEffects(player);
             
             if (thePlayer.spellFailedOk) {
                 delete thePlayer.spellFailed;
