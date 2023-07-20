@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import screenHome from './screen.home';
 import screenTeam from './screen.team';
 import screenGame from './screen.game';
+import { runesGreek } from '../res.runes.greek';
 
 const socket = io();
 const state = {
@@ -10,6 +11,9 @@ const state = {
         home: screenHome,
         team: screenTeam,
         game: screenGame,
+    },
+    resources: {
+        runes: runesGreek,
     },
     meta: {},
     system: {},

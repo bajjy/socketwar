@@ -4,45 +4,40 @@ const TEMPLATE_GAME = /*html*/`
         <div class="gameCanvas">
             <div class="floor"></div>
             <div class="battlefield">
-                <div class="circle circle-1" data-target="0"></div>
-                <div class="circle circle-2" data-target="1"></div>
-                <div class="circle circle-3" data-target="2"></div>
-                <div class="circle circle-4" data-target="3"></div>
-                <div class="circle circle-5" data-target="4"></div>
-                <div class="circle circle-6" data-target="5"></div>
-                <div class="circle circle-7" data-target="6"></div>
-                <div class="circle circle-8" data-target="7"></div>
-                <div class="circle circle-9" data-target="8"></div>
-                <div class="circle circle-10" data-target="9"></div>
-                <div class="circle circle-11" data-target="10"></div>
-                <div class="circle circle-12" data-target="11"></div>
-                <div class="circle circle-13" data-target="12"></div>
-                <div class="circle circle-14" data-target="13"></div>
+                <div class="circle circle-1"></div>
             </div>
             <div class="magiccircle hidden" data-magiccircle="1">
                 <div class="circle circle-1">
-                    <div data-arcane="0">a</div>
+                    <div data-arcane="0">Α</div>
+                    <!-- div data-arcane="0">&Alpha;</div-->
                 </div>
                 <div class="circle circle-2">
-                    <div data-arcane="1">z</div>
+                    <div data-arcane="1">Δ</div>
+                    <!-- div data-arcane="0">&Delta;</div-->
                 </div>
                 <div class="circle circle-3">
-                    <div data-arcane="2">o</div>
+                    <div data-arcane="2">Θ</div>
+                    <!-- div data-arcane="0">&Theta;</div-->
                 </div>
                 <div class="circle circle-4">
-                    <div data-arcane="3">t</div>
+                    <div data-arcane="3">Λ</div>
+                    <!-- div data-arcane="0">&Lambda;</div-->
                 </div>
                 <div class="circle circle-5">
-                    <div data-arcane="4">d</div>
+                    <div data-arcane="4">Ξ</div>
+                    <!-- div data-arcane="0">&Xi;</div-->
                 </div>
                 <div class="circle circle-6">
-                    <div data-arcane="5">i</div>
+                    <div data-arcane="5">Σ</div>
+                    <!-- div data-arcane="0">&Sigma;</div-->
                 </div>
                 <div class="circle circle-7">
-                    <div data-arcane="6">b</div>
+                    <div data-arcane="6">Ψ</div>
+                    <!-- div data-arcane="0">&Psi;</div-->
                 </div>
                 <div class="circle circle-8">
-                    <div data-arcane="7">p</div>
+                    <div data-arcane="7">Ω</div>
+                    <!-- div data-arcane="0">&Omega;</div-->
                 </div>
             </div>
             <div class="startspell" data-startspell="1">

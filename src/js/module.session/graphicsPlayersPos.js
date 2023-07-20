@@ -12,10 +12,10 @@ function graphicsPlayersPos(params, player, socket) {
         elements[playerElemName] = element;
     };
 
-    element.style.width = circle.height - 10 + 'px';
-    element.style.height = circle.height - 10 + 'px';
-    element.style.left = circle.x + 5 + 'px';
-    element.style.top = circle.y + 5 + 'px';
+    element.style.width = circle.width + 'px';
+    element.style.height = circle.height + 'px';
+    element.style.left = circle.x + 'px';
+    element.style.top = circle.y + 'px';
     element.dataset.playerPos = player.pos;
 };
 

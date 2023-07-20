@@ -37,7 +37,7 @@ export default {
     tick(state) {
         const ctrl = state.session.controls;
         for (let k in ctrl.mouselayout) {
-            if (ctrl.mouselayout[k] && ctrl.mouselayout[k].status && ctrl.mouselayout[k].action){
+            if (ctrl.mouselayout[k] && ctrl.mouselayout[k].status && ctrl.mouselayout[k].action) {
                 ctrl.mouselayout[k].action()
             }
         };

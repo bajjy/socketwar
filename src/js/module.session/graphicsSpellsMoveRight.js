@@ -12,7 +12,7 @@ function graphicsSpellsMoveRight(params, player, socket) {
 
     const MSG_TIMER = 100;
     const SPEED = config.fps / config.speed;
-    const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14  
+    const POS_MAX = config.battlefieldSize; // 0 - 16 total positions = 17  
     const playerElemName = `playerInfo_${socket}`;
     const targetPosLeft = player.pos - 1 < 0 ? POS_MAX : player.pos - 1;
     const targetPosRight = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;

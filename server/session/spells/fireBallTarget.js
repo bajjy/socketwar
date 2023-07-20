@@ -1,7 +1,8 @@
 const s4spellIndex = require('../s4spellIndex');
+const CONFIG = require('../../config');
+
 let SPELL_INDEX = s4spellIndex();
 const NAME = 'fireBallTarget';
-
 function fireBallTarget(params) {
     const validation = (validationParams) => {
         const {
@@ -46,8 +47,8 @@ function fireBallTarget(params) {
         ok: true, 
         name: NAME, 
         title: 'Fire Ball', 
-        delivery: 10, 
-        targetDelivery: 3,
+        delivery: CONFIG.spells[NAME].delivery, 
+        targetDelivery: CONFIG.spells[NAME].targetDelivery,
         message: 'fire ball casted', 
         setTarget: true,
         target: false,

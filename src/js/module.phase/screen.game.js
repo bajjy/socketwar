@@ -34,7 +34,7 @@ export default function game(params) {
             socket.emit('start-game');
         });
         session.init(state, elements.gameCanvas, elements);
-        
+        elements.magiccircle.addEventListener("contextmenu", e => e.preventDefault());
     });
 
     // prod line UNCOMMENT

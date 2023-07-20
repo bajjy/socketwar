@@ -1,21 +1,23 @@
 const Ticker = require('./class.ticker');
 const Actions = require('./class.actions');
+const BATTLEFIELD_SIZE = require('../config').battlefieldSize;
 
 const seedData = {
     x: 0,
     y: 0,
     width: 35,
     height: 35,
-    pos: 0, //random free 0-13
+    pos: 0, //random free 0-16
     idle: true,
     arcanes: [],
     lastUsedArcanes: [],
     spells: [],
     effects: [],
+    portrait: `/images/portrait/portrait${1 + Math.round(Math.random() * 22)}.png`
 };
 
 const getNum = (list) => {
-    let randomNum = Math.round(Math.random() * 13);
+    let randomNum = Math.round(Math.random() * BATTLEFIELD_SIZE);
     return list.includes(randomNum) ? getNum(list) : randomNum;
 };
 

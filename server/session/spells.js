@@ -7,7 +7,7 @@ function moveLeft(params) {
     const effect = (relevantParams) => {
         const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
-        const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14
+        const POS_MAX = config.battlefieldSize; // 0 - 16 total positions = 17
         const targetPos = me.pos - 1 < 0 ? POS_MAX : me.pos - 1;
 
         //check players positions
@@ -26,7 +26,7 @@ function moveRight(params) {
     const effect = (relevantParams) => {
         const { player, gameData, spell, config } = relevantParams;
         const me = gameData[player];
-        const POS_MAX = config.battlefieldSize; // 0 - 13 total positions = 14
+        const POS_MAX = config.battlefieldSize; // 0 - 16 total positions = 17
         const targetPos = me.pos + 1 > POS_MAX ? 0 : me.pos + 1;
 
         Object.keys(gameData).filter(pl => pl !== player).map(key => {
@@ -49,7 +49,7 @@ const spells = {
         '2': moveLeft, //left
         '6': moveRight, //right
         '167': selfInvincibleStun,
-        '350': fireBallTarget,
+        '367': fireBallTarget,
     },
     cast(params) {
         const { arcanes } = params.me;

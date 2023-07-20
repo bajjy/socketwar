@@ -91,8 +91,9 @@ function socketListener(io) {
             socket.join(store.room);
             store.players.push({
                 name: 'DUMMY',
-                team: false,
-                socket: 'socket.id'
+                team: 'game',
+                socket: 'socket.id',
+                hostility: 1
             });
 
             io.in(store.room).emit('get-teams-response', getTeams(store.players));

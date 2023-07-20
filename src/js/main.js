@@ -6,6 +6,7 @@ import './poly.raftimer.js';
 import phase from './module.phase';
 
 window.stopRender = false;
+window.showSession = false;
 
 const main = document.querySelector('main');
 

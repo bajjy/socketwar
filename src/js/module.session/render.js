@@ -3,6 +3,7 @@ import graphicsSpellsMoveRight from './graphicsSpellsMoveRight';
 import graphicsSpellsFireBallTarget from './graphicsSpellsFireBallTarget';
 import graphicsPlayersPos from './graphicsPlayersPos';
 import graphicsInterfacePlayerInfo from './graphicsInterfacePlayerInfo';
+import graphicsCellPositioning from './graphicsCellPositioning';
 
 function gamestateIdle(params) {
     const { state, session, elements, renderStore,  } = params;
@@ -14,7 +15,10 @@ function gamestateIdle(params) {
     delete renderStore.magicProcessSuccess;
 
     elements.magiccircle.classList.add('hidden');
+    elements.magiccircle.classList.remove('active');
     elements.startspell.classList.remove('hidden');
+    elements.startspell.classList.remove('inactive');
+
     session.arcanes = [];
     session.lastArcane = null;
 
@@ -54,16 +58,28 @@ function gamestateMagicStarted(params) {
     const { state, session, elements } = params;
 
     elements.magiccircle.classList.remove('hidden');
+    elements.magiccircle.classList.add('active');
     elements.startspell.classList.add('hidden');
-    
+    elements.startspell.classList.add('inactive');
+
     state.session.controls.unbindMouse('DOWN');
     state.session.controls.bindMouse([
         {
             mouse: ['MOVE'],
             action: (e) => {
                 const { lastArcane } = session;
-                const currentArcane = e.event.target.dataset.arcane;
-
+                let currentArcane = e.event.target.dataset.arcane;
+                
+                if (e.event.touches) {
+                    //TODO if more than one touch - throw breaker
+                    const cursor = e.event.touches[0];
+                    const target = document.elementFromPoint(cursor.clientX, cursor.clientY);
+                    [...document.querySelectorAll('.magiccircle .circle')].map(el => el.classList.remove('active'));
+                    
+                    currentArcane = target.dataset.arcane;
+                    
+                    if (currentArcane) target.parentElement.classList.add('active');
+                }
                 if (currentArcane && lastArcane != currentArcane) {
                     session.lastArcane = currentArcane;
                     session.act(state, { title: 'magicArcaneSet', value: currentArcane })
@@ -165,8 +181,11 @@ class Render {
         Object.keys(players).map((key, index) => {
             const player = players[key];
 
-            if (this.time === 1) graphicsPlayersPos(this, player, key); //first run set positions;
-            
+            if (this.time === 1) {
+                graphicsCellPositioning(this);
+                graphicsPlayersPos(this, player, key); //first run set positions;
+            }
+
             graphicsSpellsMoveRight(this, player, key);
             graphicsSpellsFireBallTarget(this, player, key);
             graphicsInterfacePlayerInfo(this, player, key);
@@ -177,6 +196,7 @@ class Render {
     }
     update(data) {
         if (window.stopRender) return;
+        if (window.showSession) console.log(this.session);
 
         this.stateManager(data);
         this.spellsManager(data);

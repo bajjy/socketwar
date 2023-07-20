@@ -124,8 +124,8 @@
     z-index: -1;
     margin: -@width;
     border-radius: inherit;
-    box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.9), inset 0px 0px 0px 2px hsla(47, 72%, 48%, 0.6);
-    background-image: url(/images/grainy_02.png), linear-gradient(to right, #d3ae37, #765d13);
+    box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.9), inset 0px 0px 0px 2px fadeout(darken(@col2, 10%), 40%);
+    background-image: url(/images/grainy_02.png), linear-gradient(to right, @col1, @col2);
     background-blend-mode: luminosity;
   }
 }

@@ -16,6 +16,13 @@ const config = {
         OUT: 'mouseout',
     }
 }
+
+const mapEventType = (type) => {
+    if (type == 'touchmove') return 'mousemove'; 
+    if (type == 'touchstart') return 'mousedown'; 
+    if (type == 'touchend') return 'mouseup'; 
+    return type;
+};
 class Controls {
     constructor(state) {
         this.state = state;
@@ -26,7 +33,7 @@ class Controls {
         let mouseMoveTimeout;
 
         let keyStateIs = (event) => {
-            var theCode = event.keyCode || event.which;
+            const theCode = event.keyCode || event.which;
             if (!this.keylayout[theCode]) this.keylayout[theCode] = {};
             if (event.type == 'keydown') {
                 this.keylayout[theCode].status = true;
@@ -37,7 +44,7 @@ class Controls {
         };
         
         let mouseMoveIs = (event) => {
-            var theType = event.type;
+            const theType = mapEventType(event.type);
             if (!this.mouselayout[theType]) this.mouselayout[theType] = {};
             this.mouselayout[theType].status = true;
             this.mouselayout[theType].event = event;
@@ -46,13 +53,13 @@ class Controls {
         };
         
         let mouseDownIs = (event) => {
-            var theType = event.type;
+            let theType = mapEventType(event.type);
             if (!this.mouselayout[theType]) this.mouselayout[theType] = {};
             this.mouselayout[theType].event = event;
-            if (event.type == 'mousedown') {
+            if (theType == 'mousedown') {
                 this.mouselayout['mousedown'].status = true;
             };
-            if (event.type == 'mouseup') {
+            if (theType == 'mouseup') {
                 this.mouselayout['mousedown'].status = false;
             };
         };
@@ -70,6 +77,16 @@ class Controls {
             mouseDownIs(event);
         }, true);
         window.addEventListener('mouseup', (event) => {
+            mouseDownIs(event);
+        }, true);
+        
+        window.addEventListener('touchmove', (event) => {
+            mouseMoveIs(event);
+        }, true);
+        window.addEventListener('touchstart', (event) => {
+            mouseDownIs(event);
+        }, true);
+        window.addEventListener('touchend', (event) => {
             mouseDownIs(event);
         }, true);
         // game.eb.on('ticker-tick', () => {
@@ -107,7 +124,7 @@ class Controls {
     }
 
     unbind(actions) {
-        var kk = (k) => {
+        const kk = (k) => {
             let ks = [];
             k.map(kk => ks.push(this.masterControls.KEY[kk]));
             return this.masterControls.keybind(...[ks])

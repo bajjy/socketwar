@@ -12,7 +12,6 @@ function graphicsInterfacePlayerInfo(params, player, socket) {
 
     const MSG_TIMER = 100;
     const SPEED = config.fps / config.speed;
-    const INFO_WIDTH = 200;
 
     const playerElemName = `playerInfo_${socket}`;
     const playerDetailsElemName = `playerDetails_${socket}`;
@@ -20,10 +19,6 @@ function graphicsInterfacePlayerInfo(params, player, socket) {
 
     if (!playerElement) return;
 
-console.log(socket)
-console.log(player.effects)
-//console.log(me.spells)
-    
     const element = elements[playerDetailsElemName] ? elements[playerDetailsElemName] : document.createElement("div");
     const playerPos = player.pos;
 
@@ -39,14 +34,28 @@ console.log(player.effects)
     
     element.innerHTML = /*html*/`
       <div class="player-name">
-      <div class="player-hp-bar" data-affectedHealth=${player.affectedHealth} data-actualHealth=${player.actualHealth} style="width: ${player.affectedHealth / player.actualHealth * 100}%"></div>
-      <div class="player-name-text">${player.meta.name}</div>
+        <div class="player-hp-bar" data-affectedHealth=${player.affectedHealth} data-actualHealth=${player.actualHealth} style="width: ${player.affectedHealth / player.actualHealth * 100}%"></div>
+        <!-- div class="player-name-text">${player.meta.name}</div-->
       </div>
-      <div class="player-hp" data-affectedHealth=${player.affectedHealth} data-actualHealth=${player.actualHealth}>
+      <div class="player-portrait">
+        <div class="player-portrait-image" style="background-image: url(${player.portrait})">
+
+        </div>
+      </div>
+      <!--div class="player-hp" data-affectedHealth=${player.affectedHealth} data-actualHealth=${player.actualHealth}>
           health: ${player.affectedHealth} / ${player.actualHealth}
-      </div>
+      </div -->
     `;
-    element.style.left = playerElement.x - INFO_WIDTH / 2 + 5 + "px";
-    element.style.top = playerElement.y - element.getBoundingClientRect().height - 10 + "px";
+
+    
+    if (me.meta.socket === socket) element.classList.add('self-host');
+
+    element.style.left = playerElement.x + 'px';
+    element.style.top = playerElement.y + 'px';
+    element.style.width = playerElement.width - 15 + 'px';
+    element.style.height = playerElement.height - 15 + 'px';
+
+    // element.style.left = playerElement.x - INFO_WIDTH / 2 + 5 + "px";
+    // element.style.top = playerElement.y - element.getBoundingClientRect().height - 10 + "px";
 }
 export default graphicsInterfacePlayerInfo;
