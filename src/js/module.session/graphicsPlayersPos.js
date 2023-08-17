@@ -6,7 +6,7 @@ function graphicsPlayersPos(params, player, socket) {
     const element = elements[playerElemName] ? elements[playerElemName] : document.createElement("div");
 
     if (!elements[playerElemName]) {
-        element.className = `player-point black-sphere ${playerElemName}`;
+        element.className = `player-point ${playerElemName}`;
         element.dataset.player = socket;
         elements.gameCanvas.appendChild(element);
         elements[playerElemName] = element;

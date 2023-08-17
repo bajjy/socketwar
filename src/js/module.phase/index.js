@@ -13,7 +13,7 @@ const state = {
         game: screenGame,
     },
     resources: {
-        runes: runesGreek,
+        arcanes: runesGreek,
     },
     meta: {},
     system: {},

@@ -4,6 +4,7 @@ import graphicsSpellsFireBallTarget from './graphicsSpellsFireBallTarget';
 import graphicsPlayersPos from './graphicsPlayersPos';
 import graphicsInterfacePlayerInfo from './graphicsInterfacePlayerInfo';
 import graphicsCellPositioning from './graphicsCellPositioning';
+import graphicsArcaneInfo from './graphicsArcaneInfo';
 
 function gamestateIdle(params) {
     const { state, session, elements, renderStore,  } = params;
@@ -178,17 +179,34 @@ class Render {
     }
     graphicsManager() {
         const players = this.session.render.data;
+        //first run;
+        if (this.time === 0) {
+            graphicsCellPositioning(this);
+            graphicsCellPositioning(this);
+            Object.keys(players).map((key, index) => {
+                const player = players[key];
+                graphicsPlayersPos(this, player, key);  //first run set positions;
+                graphicsInterfacePlayerInfo(this, player, key);
+            });
+
+            window.addEventListener('resize', (e) => {
+                graphicsCellPositioning(this);
+                graphicsCellPositioning(this);
+                Object.keys(players).map((key, index) => {
+                    const player = players[key];
+                    graphicsPlayersPos(this, player, key);
+                    graphicsInterfacePlayerInfo(this, player, key);
+                });
+            });
+        }
+
         Object.keys(players).map((key, index) => {
             const player = players[key];
-
-            if (this.time === 1) {
-                graphicsCellPositioning(this);
-                graphicsPlayersPos(this, player, key); //first run set positions;
-            }
 
             graphicsSpellsMoveRight(this, player, key);
             graphicsSpellsFireBallTarget(this, player, key);
             graphicsInterfacePlayerInfo(this, player, key);
+            graphicsArcaneInfo(this);
             player.spells.map(spell => {
 
             })

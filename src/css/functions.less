@@ -110,7 +110,7 @@
   }
 }
 
-.grBorder(@width, @rad, @to, @col1, @col2) {
+.grBorder(@width, @rad, @to, @col1, @col2, @z: -1) {
   // color: #FFF;
   // background: #000;
   background-clip: padding-box;
@@ -121,7 +121,7 @@
     content: '';
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
-    z-index: -1;
+    z-index: @z;
     margin: -@width;
     border-radius: inherit;
     box-shadow: inset 0px 0px 0px 1px rgba(1, 1, 0, 0.9), inset 0px 0px 0px 2px fadeout(darken(@col2, 10%), 40%);

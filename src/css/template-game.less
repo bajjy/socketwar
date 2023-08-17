@@ -74,25 +74,22 @@
   .battlefield {
     position: absolute;
     left: 0;
-    bottom: 10%;
+    bottom: 0;
     right: 0;
     margin: auto;
-    width: 750px;
-    height: 650px;
-    border-radius: 50%;
-    transform: rotate3d(1, 0, 0, 0deg);
+    width: 90%;
+    height: 90%;
+    max-width: 700px;
     z-index: -1;
     @media (max-width: 500px) {
-      width: 320px;
-      height: 320px;
+      width: 100%;
+      height: 100%;
       bottom: auto;
-      top: 5%;
+      top: auto;
     } 
     @media screen and (orientation:landscape) and (max-height: 500px) {
-      width: 300px;
-      height: 300px;
-      left: 5%;
-      right: initial;
+      width: 100%;
+      height: 100%;
       top: auto;
       bottom: auto;
     }
@@ -397,5 +394,50 @@
   }
   .player-hp {
     position: relative;
+  }
+}
+
+.arcane-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: absolute;
+  width: 100%;
+  padding: 5px;
+  background-color: rgb(59, 59, 59);
+  background-image: url(/images/marble_12.png);
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.55);
+  .arcane-item {
+    font-size: 0.8em;
+    font-family: Times, "Times New Roman", Georgia, serif;
+    text-transform: uppercase;
+    width: calc(50% - 5px);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    box-shadow: inset 0 0px 5px 0 #00000080;
+    color: #ffffff;
+    border-radius: 3px;
+    .sign {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      width: 30px;
+      height: 30px;
+      text-shadow: 0 0 2px #00ffc3, 0 0 10px #00ffc3;
+      box-shadow: inset -10px 0 10px -10px #000000a3;
+    }
+    .title {
+      flex-grow: 1;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: @font-family;
+      font-size: 0.7em;
+      letter-spacing: 1px;
+    }
   }
 }

@@ -3,6 +3,24 @@ const TEMPLATE_GAME = /*html*/`
     <div class="template-game">
         <div class="gameCanvas">
             <div class="floor"></div>
+            <div class="arcane-info" data-arcaneinfo="arcaneInfo" style="top: 116.156px; left: 98.75px; width: 167.5px;">
+                <div class="arcane-item">
+                <span class="sign">Ξ</span>
+                <span class="title">Xi</span>
+                </div>
+                <div class="arcane-item">
+                <span class="sign">Σ</span>
+                <span class="title">Sigma</span>
+                </div>
+                <div class="arcane-item">
+                <span class="sign">Ψ</span>
+                <span class="title">Psi</span>
+                </div>
+                <div class="arcane-item">
+                <span class="sign">Ω</span>
+                <span class="title">Omega</span>
+                </div>
+            </div>
             <div class="battlefield">
                 <div class="circle circle-1"></div>
             </div>

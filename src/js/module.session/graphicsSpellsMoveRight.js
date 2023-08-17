@@ -18,9 +18,15 @@ function graphicsSpellsMoveRight(params, player, socket) {
     const targetPosRight = player.pos + 1 > POS_MAX ? 0 : player.pos + 1;
     const element = elements[playerElemName];
     const isMyself = me.meta.socket === socket;
+    const spellList = [
+        'moveLeft',
+        'moveRight',
+        'jumpLeft',
+        'jumpRight',
+    ];
 
     player.spells
-        .filter(spell => spell.name == 'moveRight' || spell.name == 'moveLeft')
+        .filter(spell => spellList.includes(spell.name))
         .map(spell => {
             const { spellIndex } = spell;
             const animationId = `moveRigh_${spellIndex}`;

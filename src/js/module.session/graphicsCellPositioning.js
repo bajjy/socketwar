@@ -1,8 +1,7 @@
 function graphicsCellPositioning(params) {
   const { elements, config } = params;
   const numSquares = config.battlefieldSize;
-  const { top, right, bottom, left, width, height } =
-    elements.battlefield.getBoundingClientRect();
+  const battlefieldRect = elements.battlefield.getBoundingClientRect();
   const dimensions = elements.battlefield.querySelector('.circle').getBoundingClientRect();
   const turn = Math.ceil(numSquares / 4) - 1;
   let targetIndex = 0;
@@ -18,11 +17,11 @@ function graphicsCellPositioning(params) {
 
     square.style.top = startTop + nTop * dimensions.height + 'px';
     square.style.left = startLeft + nLeft * dimensions.width  + 'px';
+    square.style.width = battlefieldRect.width / (turn + 1) + 'px';
+    square.style.height = battlefieldRect.height / (turn + 3) + 'px';
   };
 
   elements.battlefield.innerHTML = "";
-  elements.battlefield.style.width = (turn + 1) * dimensions.width  + 'px';
-  elements.battlefield.style.height = (turn + 3) * dimensions.height  + 'px';
 
   for (let i = 0; i <= turn; i++) {
     if (targetIndex <= numSquares) newSquare(0, i, 0, 0);
