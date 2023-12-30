@@ -4,7 +4,8 @@ import screenTeam from './screen.team';
 import screenGame from './screen.game';
 import { runesGreek } from '../res.runes.greek';
 
-const socket = io();
+const socket = io({ transports: ['websocket'] });
+window.sock = socket
 const state = {
     screen: 'game',
     screens: {

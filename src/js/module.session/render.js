@@ -5,6 +5,7 @@ import graphicsPlayersPos from './graphicsPlayersPos';
 import graphicsInterfacePlayerInfo from './graphicsInterfacePlayerInfo';
 import graphicsCellPositioning from './graphicsCellPositioning';
 import graphicsArcaneInfo from './graphicsArcaneInfo';
+import graphicsMessages from './graphicsMessages';
 
 function gamestateIdle(params) {
     const { state, session, elements, renderStore,  } = params;
@@ -207,6 +208,7 @@ class Render {
             graphicsSpellsFireBallTarget(this, player, key);
             graphicsInterfacePlayerInfo(this, player, key);
             graphicsArcaneInfo(this);
+            graphicsMessages(this);
             player.spells.map(spell => {
 
             })

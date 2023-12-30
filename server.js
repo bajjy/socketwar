@@ -12,9 +12,11 @@ const config = {
     html: HTML,
     gameserver: GAMESERVER,
 };
-
+const socketConfig = {
+    transports: ['polling', 'websocket'],
+};
 const app = http.createServer((request, response) => requestListener({ request, response, config })).listen(PORT);
-socketListener(socketio(app));
+socketListener(socketio(app, socketConfig));
 
 process.on('uncaughtException', function(e){
     console.log(e);

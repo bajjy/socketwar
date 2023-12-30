@@ -110,6 +110,17 @@ function socketListener(io) {
         });
         //end remove
 
+        socket.on('reconnect-player', async (player, response) => {
+            const store = getLink(player.link);
+
+            if (!store) {
+                return socket.emit('reconnect-error', {error: 'Not exist!'} );
+            }
+
+            console.log('reconnected', store.room)
+            console.log('reconnected')
+            await socket.join(store.room);
+        });
         socket.on('join-request', ({ name, link }, response) => {
             const store = getLink(link);
 

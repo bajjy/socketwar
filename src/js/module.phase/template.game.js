@@ -60,6 +60,8 @@ const TEMPLATE_GAME = /*html*/`
             </div>
             <div class="startspell" data-startspell="1">
             </div>
+            <div class="messagesinfo" data-messagesinfo="messagesInfo">
+            </div>
         </div>
         <div class="gameInfo hidden">
             READY

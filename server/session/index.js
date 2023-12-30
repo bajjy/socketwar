@@ -13,7 +13,8 @@ const seedData = {
     lastUsedArcanes: [],
     spells: [],
     effects: [],
-    portrait: `/images/portrait/portrait${1 + Math.round(Math.random() * 22)}.png`
+    portrait: `/images/portrait/portrait${1 + Math.round(Math.random() * 22)}.png`,
+    messages: ['start']
 };
 
 const getNum = (list) => {
