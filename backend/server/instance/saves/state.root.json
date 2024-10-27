@@ -1,0 +1,55 @@
+[
+  {
+    "players": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 35,
+        "height": 35,
+        "pos": 5,
+        "idle": true,
+        "arcanes": [],
+        "lastUsedArcanes": [],
+        "spells": [],
+        "effects": [],
+        "messages": [],
+        "meta": {
+          "name": "pupa",
+          "team": 0
+        },
+        "baseHealth": 100,
+        "actualHealth": 100,
+        "affectedHealth": 100,
+        "secret": {
+          "pin": "1111"
+        }
+      },
+      {
+        "x": 0,
+        "y": 0,
+        "width": 35,
+        "height": 35,
+        "pos": 6,
+        "idle": true,
+        "arcanes": [],
+        "lastUsedArcanes": [],
+        "spells": [],
+        "effects": [],
+        "messages": [],
+        "meta": {
+          "name": "lupa",
+          "team": 0
+        },
+        "baseHealth": 100,
+        "actualHealth": 100,
+        "affectedHealth": 100,
+        "secret": {
+          "pin": "2222"
+        }
+      }
+    ],
+    "world": {
+      
+    }
+  }
+]
